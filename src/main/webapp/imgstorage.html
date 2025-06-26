@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+      <head>
+          <script src="/jquery/jquery.min.js"></script>
+          <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+          <style>input[type="file"] {min-height: 45px;}</style>
+    </head>
+<body>
+
+	<form data-lift="page.FilesSn.addImage" class="form-inline" method="POST"
+          enctype="multipart/form-data" >
+        <div class="form-group">
+	<input id="file" class="form-control" /><input class="btn btn-info" id="submit" />
+        </div>
+        <small><em>link: </em> <span id="linkpath"></span> </small>
+	<lift:msgs/>
+	</form>
+</body>
+</html>

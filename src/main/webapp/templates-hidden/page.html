@@ -1,0 +1,106 @@
+<!doctype HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link id="favicon" href="/images/media/flavicon.ico" type="image/png" rel="icon"/>
+    <link href="/style/menu.css"  rel="stylesheet"/>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/jqueryui/jquery-ui.css" />
+
+    <link href="/bootstrap/css/full-slider.css" rel="stylesheet">
+
+    <title> Szkolny portal edukacyjny</title>
+
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap -->
+
+    <style>
+        .footer {
+        text-align: center;
+        color: #999;
+        background-color: #f9f9f9;
+        border-top: solid 1px #e5e5e5;
+        padding: 20px 0;
+        }
+    </style>
+<script>
+
+</script>
+</head>
+<body>
+
+<nav class="myNavbar" id="myNavbar" >
+    <div class="upperBar" id="upperBar"
+         data-lift="page.MenuSn.upperMenu">
+
+      <span class="leftMenu">
+          <a class="navbar-brand" href="/"><img id="logopng" src="/images/media/logo.png" /></a>
+
+      </span>
+			<span iv class="rightMenu">
+				<span><span class="glyphicon glyphicon-list"></span> Menu </span>
+				<span><span class="glyphicon glyphicon-user"></span>
+                    <span id="loginInfo">Mikołaj Sochacki</span>
+                </span>
+			</span>
+    </div>
+    <div class="menuItems" onmouseleave="closeMenu()">
+        <div class="row" id="linkarea" data-lift="page.MenuSn.menu">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 linkareaCol" ></div>
+            <div class="col-lg-2" data-lift="page.MenuSn.submenu">
+
+
+                <a href="/user_mgt/logout" class="login">
+                    Wyloguj
+                </a>
+
+                <hr/>
+                <div role="search" >
+                    <div class="form-group">
+                        <input id="toSearch" placeholder="Szukaj z Google" onkeypress="pressEnter(event)" class="form-control" type="text">
+                        <button onclick="searchGoogle()" class="btn btn-default"
+                                style="width:100%;" id="toSearchBut" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <span class="glyphicon glyphicon-remove menuCloseBtn" id="closeButton"></span>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+
+<div  id="content">
+    <!-- The HTML content will go here -->
+</div>
+
+<div class="row" id="bottomlinkarea" data-lift="page.MenuSn.bottomMenu">
+    <div class="col-lg-2"></div>
+    <div class="bottomLinks col-lg-2">
+
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+
+<footer class="footer">
+    <p> Programmed by: <a href="https://brosbit.eu">Mikołaj Sochacki, Otwarta Platforma Odwróconej Szkoły</a> ©
+    <div id="lift__noticesContainer__"></div>
+    <a onclick="document.querySelector('#myNavbar').scrollIntoView({ behavior: 'smooth'});">↑ Do góry ↑</a> </p>
+</footer>
+
+<script src="/jqueryui/jquery-ui.min.js" type="text/javascript"></script>
+<!-- <script src="/jquery/logoandfavicon.js" type="text/javascript"></script> -->
+<script src="/jquery/menu.js" type="text/javascript"></script>
+
+</body>
+</html>

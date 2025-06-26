@@ -1,0 +1,171 @@
+<div class="lift:surround?with=educontent;at=content">
+	<head_merge>
+
+        <script src="/jquery/jquery.dataTables.min.js"></script>
+        <link rel="stylesheet" type="text/css"
+              href="/style/jquery.dataTables.css" />
+	<script type="text/javascript" src="/jquery/dejavu.js"></script>
+	<script type="text/javascript" src="/jquery/editquiz.js"></script> 
+	<script>
+
+			var editQuiz = Object();
+
+			$(document).ready(function() {
+
+				$("#allQuizList").sortable();
+				$("#choosedQuizList").sortable();
+				editQuiz = new EditQuiz();
+
+			});
+			function refreshTab() {
+			editQuiz.refreshDataTable();
+		}
+		</script>
+	<style>
+#leftColumn {
+	list-style-type: none;
+	background: #eeeeee;
+	border: 1px solid navy;
+    overflow-y: scroll;
+    max-height: 600px;
+    padding: 0 5px;
+}
+
+
+ul.dropselected li, ul.dropall li {
+	margin: 2px;
+	padding: 2px;
+	border: dotted 1px #555;
+    list-style-type: none;
+	background-color: #fff !important;
+	background-image: none !important;
+}
+
+ul.dropselected li span.btn, ul.dropall li span.btn {
+       float: right;
+}
+
+ul.dropall, ul.dropselected {
+    min-height: 100px;
+    padding-left: 2px !important;
+}
+
+.wrong {
+	padding-left: 10px;
+	display: inline;
+	text-decoration: line-through;
+}
+
+.rightAnswer {
+	padding-left: 10px;
+	display: inline;
+	text-decoration: underline;
+	color: red;
+}
+
+.dropall strong, .dropselected strong {
+	padding: 0 5px;
+    border: 1px dotted #777;
+}
+.points {width: 50px;}
+</style>
+
+	</head_merge>
+
+	<div  class="jumbotron" data-lift="edu.EditQuizSn.showInfo">
+		<h2>Edycja testu przedmiotu: <span style="color: navy;"></span></h2>
+	</div>
+	<br />
+
+	<div id="questEditor" title="Edycja pytania">
+
+
+		<form class="lift:edu.EditQuizSn.editQuiz" method="POST">
+				<input id="questionsQuiz" type="text" style="display: none;" />
+            <div class="row">
+            <div class="col-lg-6">
+            <div class="form-group">
+
+                    <label for="descriptionQuiz"  class="control-label">Tytuł: </label>
+                    <input type="text" id="titleQuiz" class="form-control"/>
+
+            </div>
+            <div class="form-group">
+                <label for="descriptionQuiz" class="control-label">Opis:</label>
+                <div class="">
+                    <textarea type="text" class="form-control" id="descriptionQuiz"
+                              rows="3" cols="75"></textarea>
+                </div>
+            </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                    <input id="saveQuiz"  onclick="return editQuiz.prepareData();"
+                           class="btn btn-success" type="submit" />
+                    </div>
+                    <div class="col-lg-6">
+                    <input id="deleteQuiz" onclick="return confirm('Na pewno usunąć test?');"
+                           class="btn btn-danger" type="submit" />
+                    </div>
+                </div>
+             </div>
+
+            <div class="col-lg-6">
+
+            </div>
+            </div>
+
+            <br />
+            <hr />
+		</form>
+        <input id="jsonForDataTable" style="display:none;" value="" />
+	</div>
+    <div class="row">
+        <div class="col-lg-6">
+
+        </div>
+        <div class="col-lg-6">
+            <form class="form-group" data-lift="edu.EditQuizSn.choiceDepart">
+                <div class="form-inline">
+                    <div class="input-group">
+                        <div class="input-group-addon">Wybierz dział: </div>
+                        <select id="departments" class="form-control"></select>
+                    </div>
+                    <div class="input-group">
+                        <button class="btn btn-success" id="getDeparts">
+                            <span class="glyphicon glyphicon-plus"></span> Wybierz
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+
+	<div id="listColumns" class="row" data-lift="edu.EditQuizSn.questionList">
+
+		<div id="leftColumn" class="col-lg-4">
+			<ul class="dropselected">
+                <li class="quizElement"></li>
+			</ul>
+		</div>
+		<div id="rightColumn" class="col-lg-8">
+            <table id="choiceTable" class="datatable">
+                <thead>
+                <th>Nr</th><th>Treść pytania</th><th>Info</th><th>Poziom i trudność</th>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                <th>Nr</th><th>Treść pytania</th><th>Info</th><th>Poziom i trudność</th>
+                </tfoot>
+            </table>
+		</div>
+
+	</div>
+
+    <br />
+    <br />
+    <br /><br />
+</div>

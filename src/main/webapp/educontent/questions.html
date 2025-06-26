@@ -1,0 +1,236 @@
+<div class="lift:surround?with=educontent-questions;at=content">
+	<head_merge>
+        <link rel="stylesheet" type="text/css" href="/style/jquery.dataTables.css" />
+        <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+        <script src="/jquery/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="/jquery/ckeditorresource.js"></script>
+        <script type="text/javascript" src="/jquery/ASCIIMathML.js"></script>
+		<script src="/jquery/redirectdepartmentselect.js"></script>
+	<script type="text/javascript" src="/jquery/editquest.js"></script>
+
+        <script>
+			var editQuest = Object();
+			$(document).ready(function() {editQuest = new EditQuest();});
+		</script>
+	<style>
+#fakeAnswerList li button, #goodAnswerList li button {
+	margin-right: 10px;
+}
+
+#fakeAnswerList li, #goodAnswerList li {
+	list-style-type: none;
+}
+
+#fakeAnswerList, #goodAnswerList {
+	padding: 5px;
+}
+
+.wrong, .good {
+	padding-left: 5px;
+	display: block;
+}
+#hintQuest {
+	width: 500px;
+	height: 450px;
+}
+#hintQuestDiv { display: none; }
+span.label-info {margin: 0 10px;}
+.question { word-break: break-word; }
+small { display: none; }
+#usingQuestInfo > h4 { font-weight: bold; }
+</style>
+
+	</head_merge>
+	<div class="well">
+		<h2>Edycja pytań</h2>
+		<p>Możemy tworzyć cztery typy pytań:
+		<ol><li>Pytanie otwarte: nie dodajemy żadnej dobrej, ani prawidłowej odpowiedzi</li>
+		<li>Pytanie zamknięte jednokrotnego i wielokrotnego wyboru.<br/>
+        Dodajemy kilka dobrych odpowiedzi i co najmniej jedną nieprawidłową.
+		Dla pytań z kilkoma dobrymi odpowiedziami będzie to pytanie wielokrotnego wyboru, dla jednej jednokrotego. 
+		W teście po zaznaczeniu opcji jako testu wielokrotnego wyboru wszystkie pytania stają się 
+		testem wielokrotengo wyboru.
+		</li>
+		<li>Pytanie otwarte z porównaniem do wzorca: wpisujesz co najmniej jedną odpowiedź prawidłową 
+		(lub kilka możliwych) i żadnej prawidłowej</li>
+		</ol>
+		</p>
+		<p>Możemy dodać odpowiedź po kliknięciu przycisku Odpowiedź w edytorze zadania,
+			gdy chcemy, a by uczeń mógł pracować samodzielnie i odczytać wynik dostępny tylko w Pracach </p>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="lift:edu.EditQuestSn.subjectAndDepartmentChoice form-inline"
+				method="POST">
+                <h2 id="subjectAndDepartment">Fizyka <span class="label label-default"> Energia i praca</span></h2>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+				<div class="input-group">
+					<div class="input-group-addon">Wybierz:</div>
+					<select id="subjectChoice" onchange="redirectDepartment()" class="form-control"></select>
+				</div>
+                    </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-success btn-lg" id="addQuestion"
+                            onclick="editQuest.startNewQuest()">
+                        <span class="glyphicon glyphicon-plus-sign"></span> Dodaj nowe
+                        pytanie
+                    </button>
+                </div>
+                </div>
+			</div>
+		</div>
+	</div>
+	<br />
+	<hr />
+	<div id="questEditor" title="Edycja pytania" style="display: none;">
+		<form class="lift:edu.EditQuestSn.editQuest" method="POST">
+			<div style="padding-bottom: 10px; float: left;">
+				<div id="questionQuestDiv">
+				<textarea id="questionQuest" class="ckeditor"></textarea>
+				</div>
+				<div id="hintQuestDiv">
+					<h3>Podpowiedź lub rozwiązanie</h3>
+				<textarea id="hintQuest" class="goodHint"></textarea>
+				</div>
+				<div class="form-online">
+					<br />
+					<div class="input-group" style="display:inline">
+						<div class="col-sm-4">
+						<input id="saveQuestVisible" class="btn btn-lg btn-success"
+							value="Zapisz!" type="submit"
+							onclick="return editQuest.prepareToSave();" /> <input
+							id="saveQuest" value="Zapisz" type="submit" style="display: none;" />
+						</div>
+						<div class="col-sm-4">
+						<input id="deleteQuest" class="btn btn-lg btn-danger" value="Usuń"
+							type="submit" />
+						</div>
+						<div class="col-sm-4">
+							<button class="btn btn-lg btn-warning" id="showHintQuest"
+							onclick="editQuest.addHintChange();" title="Podpowiedź">
+								<span class="glyphicon glyphicon-refresh"></span></button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div style="float: right; width: 400px;">
+				<input id="idQuest" style="display: none" type="text" />
+				<div class="input-group">
+					<div class="input-group-addon">Info:</div>
+					<input id="infoQuest" type="text" class="form-control"/>
+				</div>
+				<div class="input-group">
+					<div class="input-group-addon">Nr pytania:</div>
+					<input id="nrQuest" type="number" class="form-control" readonly="readonly"/>
+				</div>
+				<div class="input-group">
+					<div class="input-group-addon">Przedmiot:</div>
+					<input id="subjectQuest" class="form-control" readonly="readonly"/>
+				</div>
+				<div class="input-group">
+					<div class="input-group-addon">Poziom:</div>
+					<select id="levelQuest" class="form-control" ></select>
+				</div>
+				<div class="input-group">
+					<div class="input-group-addon">Dział:</div>
+					<select id="departmentQuest" class="form-control"></select>
+				</div>
+				<div class="input-group">
+					<div class="input-group-addon">Trudność:</div>
+					<select id="dificultQuest" class="form-control"></select>
+				</div>
+				<div class="input-group">
+					<label class="control-label">Odpowiedź prawidłowa:</label>
+					<ul id="goodAnswerList"></ul>
+					<input
+						type="text" id="answerQuest" class="form-control" style="display: none;"/>
+				</div>
+				<div class="row">
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="goodAdd" value="" />
+                        </div>
+                        <div class="col-sm-2">
+                        <button class="btn btn-success btn-sm"
+                            onclick="editQuest.addGoodAnswer()">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                        </button>
+                    </div>
+                </div>
+				<div class="input-group">
+					<label class="control-label">Odpowiedzi fałszywe:</label>
+					<ul id="fakeAnswerList"></ul>
+					<input type="text" id="wrongQuest" style="display: none;" />
+				</div>
+				<div class="row">
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="fakeAdd" value="" />
+						</div>
+						<div class="col-sm-2">
+						<button class="btn btn-success btn-sm"
+							onclick="editQuest.addFakeAnswer()">
+							<span class="glyphicon glyphicon-plus-sign"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</form>
+		<div class="clear"></div>
+	</div>
+
+	<div id="questList">
+		<table id="datatable" style="width:100%;">
+			<thead>
+				<tr>
+					<th>Nr</th>
+					<th style="min-width:40%;">Pytanie</th>
+					<th>Info</th>
+					<th>Prawidłowe</th>
+					<th>Błędne</th>
+					<th>Podpowiedź</th>
+					<th>Poziom</th>
+					<th>Trudność</th>
+					<th>Edycja</th>
+				</tr>
+			</thead>
+			<tbody class="lift:edu.EditQuestSn.showQuests">
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>Nr</th>
+					<th>Pytanie</th>
+					<th>Info</th>
+					<th>Prawidłowe</th>
+					<th>Błędne</th>
+					<th>Podpowiedź</th>
+					<th>Poziom</th>
+					<th>Trudność</th>
+					<th>Edycja</th>
+				</tr>
+			</tfoot>
+		</table>
+
+	</div>
+
+	<div id="showUsing" data-lift="edu.EditQuestSn.showUsing" title="Tematy lekcji gdzie występuje zadanie">
+		<form >
+			<input id="nrOfQuest" type="text" style="display:none;">
+			<div id="usingQuestInfo"></div>
+			<input id="buttonQuest" style="visible:none;">
+		</form>
+	</div>
+
+</div>

@@ -1,0 +1,91 @@
+<!doctype HTML>
+<html>
+    
+<div class="lift:surround?with=educontent;at=content">
+    <head_merge> 
+    <script src="/jquery/dejavu.js"></script>
+       <script src="/jquery/jquery.dataTables.min.js" ></script>
+      <link rel="stylesheet" type="text/css" href="/style/jquery.dataTables.css" />
+      <script src="/jquery/editfiles.js"></script>
+       <script>
+       var editFile = new Object();
+       $(document).ready(function(){
+    	   editFile = new EditFile();
+       });
+        
+       </script>
+      
+    </head_merge>
+  <div class="well"><h2>Twoje pliki</h2></div>
+
+  
+  <div class="row">
+		<div class="col-lg-6" data-lift="edu.FileResourceSn.subjectAndDepartmentChoice">
+            <div  class="form-inline">
+                    <h2 id="subjectAndDepartment">Fizyka
+                        <span class="label label-default"> Dział</span>
+                        <big id="subjectNameLabel">Energia i praca</big></h2>
+                    <hr />
+                    <div class="input-group">
+                        <div class="input-group-addon">Wybierz:</div>
+                        <select id="subjectChoice" class="form-control"></select>
+                    </div>
+            </div>
+		</div>
+		<div class="col-lg-6">
+			<button type="button" class="btn btn-success btn-lg"  id="addTrigger">
+  <span class="glyphicon glyphicon-plus-sign"></span>Wczytaj nowy plik
+</button>
+		</div>
+
+	</div>
+
+<br/><hr/>
+
+<div >
+	 <table id="dataTable"><thead><tr><th>Tytuł</th><th>Opis</th>
+	 		<th>Poziom</th><th>Edycja</th></tr></thead>
+	 <tbody class="lift:edu.FileResourceSn.showMyFiles"><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+	 <tfoot><tr><th>Tytuł</th><th>Opis</th>
+	 		<th>Poziom</th><th>Edycja</th></tr></tfoot>
+	 </table>
+</div>
+   
+   <div id="addNewItem" title="Dodaj nowy plik"  style="display:none;">
+   <form class="lift:edu.FileResourceSn.add?form=POST  form-horizontal"   role="form"  enctype="multipart/form-data">
+   <input id="resourceId" style="display:none;"/>
+   <div class="form-group">
+        <label for="titleAdd"  class="col-sm-3 control-label">Tytuł:</label> 
+        <div   class="col-sm-9"><input id="titleAdd"   class="form-control"/></div>
+     </div>
+   <div class="form-group">
+        <label for="subjectAdd"  class="col-sm-3 control-label">Przedmiot: </label> 
+        <div   class="col-sm-9"><input id="subjectAdd"  class="form-control" readonly="readonly"/></div>
+   </div>
+   <div class="form-group">
+        <label for="levelAdd"  class="col-sm-3 control-label">Poziom: </label> 
+        <div   class="col-sm-9"><input id="levelAdd"  class="form-control" /></div>
+   </div>
+   <div class="form-group">
+        <label for="departmentsAdd"  class="col-sm-3 control-label">Dział: </label> 
+        <div   class="col-sm-9"><select id="departmentsAdd"  class="form-control"></select></div>
+   </div>
+   <div class="form-group">
+        <label for="descriptAdd" class="col-sm-3 control-label">Opis:</label>
+         <div   class="col-sm-9"><textarea id="descriptAdd" class="form-control"></textarea></div>
+    </div>
+   <div class="form-group">
+            <label for="fileAdd" class="col-sm-3 control-label">Plik:</label>
+             <div   class="col-sm-9"><input id="fileAdd"  class="form-control"/></div>
+      </div>
+   <div class="form-group">
+         <label  class="col-sm-3 control-label"></label>
+         <div class="col-sm-6"> <input type="submit" id="saveAdd"   class="btn btn-success btn-lg"/></div>
+         <div class="col-sm-3"> <input type="submit" onclick="return confirm('Na pewno chcesz usunąć plik?');"
+         id="deleteAdd"   class="btn btn-danger btn-lg"/></div>
+         </div>
+   </form>
+   </div>
+   
+   </div>
+</html>

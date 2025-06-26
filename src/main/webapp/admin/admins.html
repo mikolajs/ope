@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<body class="lift:content_id=main">
+<div id="main" class="lift:surround?with=admin;at=content">
+    <head_merge>
+
+        <script>
+                    function checkPass() {
+                        var pass1 = document.getElementById('pass1').value;
+                        var pass2 = document.getElementById('pass2').value;
+                        pass1 = myTrim(pass1);
+                        pass2 = myTrim(pass2);
+                        alert(pass1 + " " + pass2);
+                        if (pass1 != pass2 || pass1.length < 6) {
+                            alert("Hasła nie pasują lub hasło jest za krótkie (mniej niż 6 liter)");
+                            return false;
+                        } else return true;
+                    }
+                    
+                    function myTrim(str) {
+                        var str2 ="";
+                        for (i = 0; i < str.length; i++) if (str[i] != ' ' && str[i] != "\t" && str[i] != "\r") str2 += str[i];
+                        return str2;
+                    }
+                    
+                   
+                    
+                    function insertFromTableToForm(elem){
+                    	$(elem).children('td').each(function(index){
+                    		switch(index){
+                    		case 0:
+                    			document.getElementById("id").value = this.innerHTML.trim();
+                    			break;
+                    		case 1:
+                    			document.getElementById("firstname").value = this.innerHTML.trim();
+                    			break;
+                    		case 2:
+                    			document.getElementById("lastname").value = this.innerHTML.trim();
+                    			break;
+                    		case 3:
+                    			document.getElementById("email").value = this.innerHTML.trim();
+                    			break;
+                    		default:
+                    			break;
+                    		}
+                    	});
+                    	
+                    }
+               
+        </script>
+    </head_merge>
+    
+    
+<div class="well">
+<h3>Zmiana danych administratora</h3>
+</div>
+
+<div>
+
+<form class="lift:admin.AdminEditAdminsSn.editAdmin" method="POST" id="frm1"><br />
+<fieldset><legend>Zmiana hasła administratora</legend>
+<p><label for="id">Id:</label><input class="form-control" id="id" readonly="readonly"/></p>
+<p><label for="firstname">Imię:</label><input class="form-control" id="firstname" /></p>
+<p><label for="lastname">Nazwisko:</label><input class="form-control" id="lastname" /></p>
+<p><label for="email">E-mail:</label><input class="form-control" id="email" /></p>
+<p><label for="password1">Hasło:</label><input class="form-control" id="password1" /></p>
+<p><label for="password2">Potwierdź hasło:</label><input class="form-control" id="password2" /> </p>
+<p><input id="save" class="btn btn-success"/>
+<input id="reset" type="reset" value="Nowy" onclick="return clearForm();" class="btn btn-default"/>
+<input id="delete"  class="btn btn-danger" onclick="return confirm('Jesteś pewien, że chcesz usunąć administratora?');"/>
+</p>
+<p ><em><span id="notice"></span></em></p>
+</fieldset>
+</form>
+
+<div class="tables">
+		<h2>Lista administratorów:</h2>
+		<table class="table table-striped"><thead><tr><th>ID</th><th>Imię</th><th>Nazwisko</th><th>Adres e-mail</th></tr></thead>
+                    <tbody class="lift:admin.AdminEditAdminsSn.adminsList"><tr></tr></tbody>
+		</table>
+		</div>
+    
+</div>
+
+
+</div>
+</body></html>

@@ -1,0 +1,67 @@
+<div class="lift:surround?with=educontent;at=content">
+    <head_merge>
+
+        <script type="text/javascript" src="/jquery/dejavu.js"></script>
+        <script type="text/javascript" src="/jquery/checkexam.js"></script>
+        <script>
+			var checkExam = Object();
+			$(document).ready(function() {
+                checkExam = new CheckExam();
+			});
+			function beforeUnload(e) {return "Na pewno opuścić stronę?";}
+		</script>
+        <script type="text/javascript"
+                src="/MathJax/MathJax.js?config=TeX-AMS_HTML-full">
+        </script>
+        <style>
+            input[type="number"] {width : 50px;}
+            #fixedButton { position: fixed; top: 50px; right: 2px; }
+        </style>
+    </head_merge>
+
+    <div  class="well" data-lift="edu.CheckExamSn.showPupil">
+        <h2>Sprawdzian: <em>treść</em> <a href="" class="btn btn-warning">
+            <span class="glyphicon glyphicon-arrow-left"></span> Powrót</a> </h2>
+        <h2>Uczeń: <span id="namePupil" style="color: navy;"></span></h2>
+        <h3>Grupa: <small id="groupName"></small></h3>
+        <h3>Kod: <small id="codeGroup"></small></h3>
+        <p><label>Maksymalnie punktów: <input type="text" readonly id="max" value="30"></label></p>
+           <p> <label>Przyznane punkty: <input type="text"  readonly id="sum"></label>
+            <button class="btn btn-info" onclick="checkExam.checkQuest()">Sprawdź automatycznie pytania (bez otwartych)</button></p>
+            <p><canvas id="procent" width="300" height="30">
+                Twoja przeglądarka nie obsługuje elementu Canvas.
+               </canvas>
+            </p>
+
+    </div>
+    <br />
+    <div class="row" data-lift="edu.CheckExamSn.getInfo">
+        <div class="form-group"><label>Informacje zwrotne:</label>
+            <textarea id="info" class="form-control"></textarea>
+        </div>
+    </div>
+
+    <div class="row" data-lift="edu.CheckExamSn.showFileLink">
+        <div class="alert alert-success">Dołączony plik: <a href="" >LINK</a></div>
+    </div>
+
+    <div data-lift="edu.CheckExamSn.showAnswers" >
+        <div class="row">
+       <section></section>
+        </div>
+    </div>
+
+    <div style="display:none" data-lift="edu.CheckExamSn.getPoints">
+        <input id="pointsGain" type="text" />
+    </div>
+
+    <button id="fixedButton"  class="btn btn-lg btn-success"
+            title="Zapisz" onclick="checkExam.pressedSave()">
+        <span class="glyphicon glyphicon-floppy-save"></span>
+    </button>
+
+
+    <br />
+    <br />
+    <br /><br />
+</div>

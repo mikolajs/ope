@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<body class="lift:content_id=main">
+<div id="main" class="lift:surround?with=admin;at=content">
+    <head_merge>
+        <script>
+            function ifDelete(){
+                return confirm("Czy na pewno usunąć?");
+            }
+        </script>
+        <style>
+            .myImg {
+                max-width: 100%;
+            }
+        .active a { color: white;}
+        </style>
+
+    </head_merge>
+
+    <div class="well">
+        <h3>Obrazki GC</h3>
+    </div>
+    <div data-lift="admin.AdminGC.allImages" class="imgList">
+    <div class="row">
+       <div class="col-lg-1"></div>
+        <div class="col-lg-10" style="position:relative;">
+            <div class="center">
+                <span class="toDeleteFile"></span>
+                <a onclick="return ifDelete()" class="btn btn-danger" href="/admin/gc?del=">
+                    <span class="glyphicon glyphicon-remove">Kasuj</span>
+                </a>
+            </div>
+
+
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+      <div> <a href="/admin/gc?del=all" class="btn btn-danger" onclick="return ifDelete();">
+          Kasuj wszystkie!</a></div>
+    </div>
+</div>
+</body></html>

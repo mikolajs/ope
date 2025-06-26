@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta name="viewport">
+    <link href="/deckjs/core/deck.core.css" rel="stylesheet">
+
+    <link href="/deckjs/themes/style/neon.css" id="style-theme-link" type="text/css" rel="stylesheet">
+    <link href="/deckjs/themes/transition/fade.css"  rel="stylesheet">
+    <script src="/jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="/deckjs/core/deck.core.js" type="text/javascript"></script>
+    <script>
+   var nr = 0;
+   var size = 0;
+   var reload = 0;
+$(document).ready(function() {
+
+        $.deck('.slide');
+
+        var arrayId = new Array();
+
+        $('#slides').children('section').each(function() {
+            arrayId.push('#' + this.id)
+        });
+    $.deck(arrayId);
+    size = arrayId.length - 1;
+
+    setInterval(function() {
+        if(nr < size) {
+            $.deck('next');
+
+            _resize();
+            nr++;
+        }
+        else {
+            $.deck('go', 0);
+            nr = 0;
+            _resize();
+            reload++;
+        }
+        reload += interval;
+        if(reload > 120*interval) location.reload();
+    },
+
+    interval);
+
+    });
+    function _resize() {
+    	 var h = parseFloat(screen.height);
+    	 var nh = $('.deck-container').height();
+    	 var prop = h/nh;
+    	 var scale = "";
+         console.log("resize:  " + prop + " h: " + h + " nh: " + nh);
+         if(prop < 1.0) scale = "scale(" + prop + ", " + prop + ")";
+         else scale = "scale(" + 1.0 + ", " + 1.0 + ")";
+         var origin = 50 + "% " + 0 + "%";
+    	 $('section').css('transform', scale).css('transform-origin', origin);
+    	$('body').css('height', h);
+    }
+
+
+
+    </script>
+    <style>
+        .slide h1 {padding-top: 5px !important;}
+      .deck-container { width: auto; margin: auto; padding: 20px;  }
+
+    #thebody {margin: 0; background-color: #fff !important;}
+
+    </style>
+
+
+</head>
+<body id="thebody" data-lift="page.SlideDepartSn.data">
+<script> var interval = 3000;</script>
+<div class="deck-container" id="slides">
+    <section id="slideHTML"></section>
+
+</div>
+
+
+</body>
+</html>

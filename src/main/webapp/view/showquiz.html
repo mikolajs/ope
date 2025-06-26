@@ -1,0 +1,90 @@
+<!doctype HTML>
+<html>
+
+<div class="lift:surround?with=viewer;at=content">
+    <head_merge>
+        <script type="text/javascript" src="/jquery/dejavu.js"></script>
+        <script type="text/javascript" src="/jquery/showexam.js"></script>
+        <style>
+            p.courseInfo {font-weight: bold;}
+            .checkbox, .radio {
+                border: 1px solid #E3E3E3;
+                border-radius: 4px;
+                background-color: #F5F5F5;
+                box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+                padding: 5px;
+            }
+            #fixedButton { position: fixed; top: 50px; right: 2px; }
+            #timeToEnd {font-weight: bold; }
+        </style>
+    <script type="text/javascript">
+        var showExam = new Object();
+        $(document).ready(function() {
+            showExam = new ShowExam();
+        });
+
+        function getURLfromIFrame(elem){
+			var innerDoc = elem.contentDocument || elem.contentWindow.document;
+			var url  = innerDoc.getElementById('linkpath').innerHTML.trim();
+			showExam.setLoadFileSaveIsChanged(innerDoc);
+			console.log(url);
+			if(url.length > 0){
+			    $('#attachLink').val(url);
+			    $('#fixedButton').trigger('click');
+			}
+		}
+
+    </script>
+        <script type="text/javascript"
+                src="/MathJax/MathJax.js?config=TeX-AMS_HTML-full">
+        </script>
+    </head_merge>
+    <br/>
+    <div  data-lift="view.PerformExamSn.oneExam">
+
+        <div class="well"><h3 id="descript"></h3>
+            <h4>Zakończenie: <small id="endTime"></small></h4>
+
+        </div>
+        <div id="attachFrame" class="row">
+        <div class="attach" >
+            <legend>Dodawanie załącznika <small>(może być tyko jeden, dodanie nowego nadpisze starszy)</small></legend>
+            <div class="col-lg-6">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">Plik załącznika</span>
+                    <input type="text" class="form-control" placeholder="Brak załącznika"
+                           id="attachLink" readonly="readonly" aria-describedby="sizing-addon1">
+                </div>
+            </div>
+            <div class="col-lg-6">
+              <iframe id="addFileFrame" style="border:0px;" src="/filestorage"
+                     width="600" height="80" onload="getURLfromIFrame(this)"></iframe>
+            </div>
+        </div>
+        </div>
+        <form class="form-inline col-lg-offset-3 col-lg-9" class="row" method="POST">
+            <h2>Wpisz otrzymany kod</h2>
+            <label>KOD: </label><input id="code"  class="form-control" />
+            <input id="saveCode" class="form-control" />
+            <br/><br/><br/><br/>
+        </form>
+        <div class="row " id="test">
+            <div>Zadania</div>
+
+        </div>
+    </div>
+    <div style="display:none" data-lift="view.PerformExamSn.getAnswers">
+       <input id="answers" type="text" />
+    </div>
+
+        <button id="fixedButton"  class="btn btn-lg btn-success" data-lift="view.PerformExamSn.setTime"
+                title="Zapisz (poniżej czas w godzinach i minutach do końca" onclick="showExam.pressedSave()">
+            <span class="glyphicon glyphicon-save"></span>
+            <br/><span id="timeToEnd"></span>
+            <span id="secondsToEnd" style="display:none;"></span>
+        </button>
+
+
+</div>
+
+</html>

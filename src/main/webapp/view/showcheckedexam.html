@@ -1,0 +1,44 @@
+<!doctype HTML>
+<html>
+
+<div class="lift:surround?with=viewer;at=content">
+    <head_merge>
+        <style>
+            p.courseInfo {font-weight: bold;}
+            .checkbox, .radio {
+                border: 1px solid #E3E3E3;
+                border-radius: 4px;
+                background-color: #F5F5F5;
+                box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+                padding: 5px;
+            }
+            #fixedButton { position: fixed; top: 50px; right: 2px; }
+            .leftPkt {background-color: green !important; }
+            .yourAns {background-color: #eee; padding: 5px; }
+        </style>
+
+
+        <script type="text/javascript"
+                src="/MathJax/MathJax.js?config=TeX-AMS_HTML-full">
+        </script>
+    </head_merge>
+    <br/>
+      <div data-lift="view.ShowCheckedExam.showExamAnswer">
+        <div class="well" >
+            <a href="/view/exams" class="btn btn-warning"><span class="glyphicon glyphicon-arrow-left"> </span> Powrót</a>
+            <h3 ><small>Sprawdzian: </small><span id="descript"></span></h3>
+            <h3><small>Przedmiot: </small><span id="subject"></span></h3>
+            <h3><small>Zakończony: </small> <span id="endTime"></span></h3>
+            <h4>Informacja:</h4>
+            <p id="info"></p>
+        </div>
+
+        <div class="row " id="test">
+            <div></div>
+        </div>
+      </div>
+
+
+</div>
+
+</html>

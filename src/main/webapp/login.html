@@ -1,0 +1,186 @@
+<!doctype HTML>
+<html>
+
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link id="favicon" href="/images/media/flavicon.ico" type="image/png" rel="icon"/>
+<link href="/style.css" rel="stylesheet" />
+<title>Szkolny Portal Edukacyjny</title>
+
+<script src="/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/jqueryui/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/jqueryui/custom.css" />
+</head>
+<body>
+
+	<div class="navbar navbar-inverse" role="navigation" style="height: 70px;">
+		<div class="col-lg-12">
+			<div class="navbar-header">
+                <a class="navbar-brand" href="/"><img id="logopng" src="/images/media/logo.png"  alt="logo"/> </a>
+			</div>
+			<div class="collapse navbar-collapse" id="navBar">
+				<ul data-lift="LoginSn.show" class="nav navbar-nav navbar-right ">
+					<li class="loginLi"><a href="" id="logInfo" ></a></li>
+                    <li><a id="changePass" href="/user_mgt/change_password" title="Zmień hasło">
+                        <span class="glyphicon glyphicon-wrench"></span>
+                        </a>
+                    </li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+<div style="min-height:900px;">
+
+	<div class="container">
+		<div class="col-md-4"></div>
+		<div class="col-md-4">
+			<form class="form-horizontal" data-lift="LoginSn.mkLogIn"
+				role="form" method="post">
+				<div class="form-group">
+				<label>E-mail (nauczyciel) / PESEL (uczeń): </label>
+					<input type="text" placeholder="Email/PESEL" id="login"
+						class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>Hasło : </label>
+					<input type="password" placeholder="Hasło" id="password"
+						class="form-control" />
+				</div>
+				<div class="form-group">
+
+				   <div class="col-sm-4">
+					<button id="mkLog" type="submit" class="btn btn-success btn-lg">
+                        <span class="glyphicon glyphicon-ok"></span> Zaloguj</button>
+					</div>
+					<div class="col-sm-8">
+					<a href="/user_mgt/lost_password" role="button"
+						class="btn btn-info btn-lg" title="Odzyskaj hasło"> <span
+							class="glyphicon glyphicon-wrench"></span> Odzyskaj hasło
+					</a>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+				<div id="msg" class="alert alert-warning" ><span data-lift="msgs?notice"></span></div>
+			</form>
+			
+		</div>
+		<div class="col-md-4"></div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-lg-1"></div>
+		<div class="col-lg-10" data-lift="LoginSn.showMenu">
+			<div class="row">
+				<div class="col-lg-4">
+					<h2>Strona główna</h2>
+					<p>Informacje ogólne, aktualności, forum, galeria zdjęć,
+						kontakt</p>
+					<p>
+						<a id="pageA" href="/index" role="button" class="btn btn-info btn-lg">Przejdź
+							<span class="glyphicon glyphicon-forward"></span>
+						</a>
+					</p>
+				</div>
+				<div class="col-lg-4">
+					<h2>Uczniowie i rodzice</h2>
+					<p>Uwagi i wiadomości dotyczące klas i uczniów, materiały edukacyjne, wyniki nauczania</p>
+					<p>
+						<a id="viewA" href="#" role="button" class="btn btn-default btn-lg">Przejdź
+							<span class="glyphicon glyphicon-forward"></span>
+						</a>
+					</p>
+				</div>
+				<div class="col-lg-4">
+					<h2>Nauczyciel - edycja materiałów edukacyjnych</h2>
+					<p>Dodawanie materiałów i edycja lekcji udostępnianych uczniom</p>
+					<p>
+						<a id="educontentA" href="#" role="button" class="btn btn-default btn-lg">Przejdź
+							<span class="glyphicon glyphicon-forward"></span>
+						</a>
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-4">
+					<h2>Dokumenty szkolne</h2>
+					<p>Dodawanie rozkładów materiałów, terminów zajęć pozalekcyjnych i edycja dodatkowych dokumentów</p>
+					<p>
+						<a id="docA" href="#" role="button" class="btn btn-default btn-lg">Przejdź
+							<span class="glyphicon glyphicon-forward"></span>
+						</a>
+					</p>
+				</div>
+				<div class="col-lg-4">
+					<h2>Sekretariat</h2>
+					<p>Dodawanie i edycja nauczycieli, klas i uczniów oraz dzwonków </p>
+					<p>
+						<a id="secretariatA" href="#" role="button" class="btn btn-default btn-lg">Przejdź
+							<span class="glyphicon glyphicon-forward"></span>
+						</a>
+					</p>
+				</div>
+				<div class="col-lg-4">
+					<h2>Dziennik</h2>
+					<p>Prowadzenie dokumentacj związanej z uczniami: ich danymi, ocenami, nieobecnościami, plany lekcji</p>
+					<p>
+						<a id="registerA" href="#" role="button" class="btn btn-default btn-lg">Przejdź
+							<span class="glyphicon glyphicon-forward"></span>
+						</a>
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-4">
+					<h2>Forum</h2>
+					<p>Dyskusje na różne tematy</p>
+					<p>
+						<a id="forum" href="/forum" role="button" class="btn btn-info btn-lg">Przejdź
+							<span class="glyphicon glyphicon-forward"></span>
+						</a>
+					</p>
+				</div>
+				<div class="col-lg-4">
+					<h2>Slajdy</h2>
+					<p>Dodawanie slajdów na TV</p>
+					<p>
+						<a id="slideimg" href="/editslideimg" role="button" class="btn btn-info btn-lg">Przejdź
+							<span class="glyphicon glyphicon-forward"></span>
+						</a>
+					</p>
+				</div>
+				<div class="col-lg-4">
+					<h2>Galeria zdjęć</h2>
+					<p>Dodawanie galerii</p>
+					<p>
+						<a id="galleries" href="/galleries" role="button" class="btn btn-info btn-lg">Przejdź
+							<span class="glyphicon glyphicon-forward"></span>
+						</a>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-1"></div>
+	</div>
+</div>
+	<footer class="footer">
+		<div>
+			Programmed by: <a href="http://brosbit.eu">Mikołaj Sochacki –
+				OpenSchoolPlatform</a> &copy; &nbsp; &nbsp; <span class="lift:Msgs?showAll=true"></span>
+		</div>
+	</footer>
+	<script src="/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/jqueryui/jquery-ui.min.js"></script>
+	<script>
+		let mess = document.getElementById('msg');
+		if(mess.innerHTML.trim() == "") mess.style.display = 'none';
+	</script>
+   <!-- <script src="/jquery/logoandfavicon.js" type="text/javascript"></script> -->
+</body>
+</html>

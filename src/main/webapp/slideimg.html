@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta name="viewport">
+    <script src="/jquery/jquery.min.js"></script>
+    <style>
+        body, #imgContener {width: 100%; height: 100%; background-color: #111;
+        margin: 0 auto; overflow: hidden; position: relative;
+        }
+        #img { position: absolute;}
+        .showImg {
+        opacity:1;
+        transition: opacity 3s;
+        }
+
+        .fadeImg {
+        opacity:0;
+        transition: opacity 1s;
+        }
+        #loader {
+        z-index: 1000;
+        width: 100%;
+        height: 100%;
+        }
+
+    </style>
+
+
+</head>
+<body>
+
+<div class="imageContener" id="imgContener">
+</div>
+<div id="loader" style="margin: 0 auto; width: 100%;"><img src="/images/loader.gif" id="imgLoader" style="margin: 0 auto;"/></div>
+<script src="/jquery/slideimg.js"></script>
+
+</body>
+</html>

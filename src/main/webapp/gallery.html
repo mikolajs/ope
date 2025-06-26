@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<body class="lift:content_id=main">
+<div id="main" class="lift:surround?with=page;at=content">
+<head_merge>
+    <link rel="stylesheet" href="/style/blueimp-gallery.min.css" />
+    <link rel="stylesheet" href="/owl-carousel/owl.carousel.css" />
+    <link rel="stylesheet" href="/owl-carousel/owl.theme.css" />
+    <script src="/jquery/blueimp-gallery.min.js"></script>
+    <script src="/owl-carousel/owl.carousel.min.js"></script>
+    <script>
+    $(document).ready(function() {
+      $("#owl-demo").owlCarousel({
+          autoPlay: 6000,
+          items : 8,
+          itemsDesktop : [1281,6],
+          itemsDesktopSmall : [800,4],
+          itemsTablet: [600,3],
+          itemsMobile : [400, 2]
+      });
+    });
+    </script>
+<style>
+    #owl-demo .item{
+    margin: 3px;
+    }
+    #owl-demo .item img{
+    display: block;
+    width: 100px;
+    height: auto;
+    }
+
+ #wrap {background-color: #222; padding: 20px 0; margin-top: -20px; border: 1px solid #444;}
+</style>
+
+</head_merge>
+
+     <div  class="row" style="margin-top:40px;">
+
+
+
+         <div id="wrap" class="lift:page.GallerySn.drawSlider col-lg-12" >
+             <div class="col-lg-2"></div>
+             <div class="col-lg-8">
+                 <div id="owl-demo">
+                 <div class="item"><img src="assets/owl1.jpg" alt="Owl Image"></div>
+                 </div>
+             </div>
+             <div class="col-lg-2"></div>
+          </div>
+     </div>
+<hr/>
+    <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+        <div class="slides"></div>
+        <h3 class="title"></h3>
+        <a class="prev">‹</a>
+        <a class="next">›</a>
+        <a class="close">×</a>
+        <a class="play-pause"></a>
+        <ol class="indicator"></ol>
+    </div>
+
+
+
+
+<div class="lift:page.GallerySn.gallery row"   id="gallery" >
+
+ <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+ <h1><span id="gallerytitle"></span></h1> <br/>
+
+    <div id="links">
+        <a href="" >
+        </a>
+    </div>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+    <br/><br/><br/><br/><br/><br/>
+
+    <script type="text/javascript">
+
+document.getElementById('links').onclick = function (event) {
+    event = event || window.event;
+    var target = event.target || event.srcElement,
+        link = target.src ? target.parentNode : target,
+        options = {index: link, event: event},
+        links = this.getElementsByTagName('a');
+    blueimp.Gallery(links, options);
+};
+
+</script>
+</div>
+</body></html>

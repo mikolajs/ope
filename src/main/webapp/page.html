@@ -1,0 +1,216 @@
+<!doctype HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link id="favicon" href="/images/media/flavicon.ico" type="image/png" rel="icon"/>
+    <link href="/style/pages.css"  rel="stylesheet"/>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/jqueryui/jquery-ui.css" />
+    <link href="/style/menu.css" rel="stylesheet">
+
+    <title>Szkolny portal edukacyjny</title>
+
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap -->
+
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="/style/pages.css"/>
+    <script>
+     var $imgBox = null;
+     var $innerBox = null;
+     var $textBox = null;
+
+   function showNews(id, elem){
+             if($textBox != null && $imgBox != null) closeNews();
+             $innerBox = $(elem).parent().parent();
+             $textBox = $(elem).parent();
+             $imgBox = $(elem).parent().parent().children('div.imgBox');
+            showNewsCommon(id);
+            return false;
+    };
+
+   function closeNews() {
+       	 $textBox.show();
+       	 $imgBox.show();
+       	 $('#ajaxNews').hide().empty();
+
+   };
+
+    function showNewsCommon(id) {
+        if($textBox != null && $imgBox != null) closeNews();
+         $('#hiddenAjaxText').val(id).trigger('blur');
+         var $ajaxNews = $('#ajaxNews');
+         $innerBox.append($ajaxNews);
+         $textBox.hide();
+         $imgBox.hide();
+         $('#ajaxNews').show(100);
+    }
+    </script>
+    <style>
+        .actualPage {color: #ccc !important;}
+
+        label {
+        font-weight: bold;
+        font-size: 1.2em;
+        padding-right: 20px;
+        }
+
+        .footPrint {
+        padding: 3px;
+        border-bottom: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+        }
+        span.fullname, span.date {
+        padding-right: 20px;
+        }
+
+        span.edit {float: right;}
+
+        #slideImg {max-height: 600px;}
+        #slideInfo { position: absolute; bottom: 100px; width: 100%; color: white;
+        text-align: center;
+        text-shadow: -1px -1px 1px #555, 1px -1px 1px #555, -1px 1px 1px #555, 1px 1px 1px #555;
+        animation-name: example;
+        animation-duration: 6s;
+        }
+
+        @keyframes example {
+        0%   {bottom:500px;}
+        80% {bottom:80px;}
+        85% {bottom: 120px;}
+        90% {bottom: 90px;}
+        95% {bottom: 105px;}
+        100% {bottom: 100px;}
+        }
+
+    </style>
+
+</head>
+<body>
+<nav class="myNavbar" id="myNavbar" >
+    <div class="upperBar" id="upperBar"
+         data-lift="page.MenuSn.upperMenu">
+
+      <span class="leftMenu">
+          <a href="/"><img id="logopng" src="/images/media/logo.png" /></a>
+
+      </span>
+			<span iv class="rightMenu">
+				<span><span class="glyphicon glyphicon-list"></span> Menu </span>
+				<span><span class="glyphicon glyphicon-user"></span>
+                    <span id="loginInfo">Mikołaj Sochacki</span>
+                </span>
+			</span>
+    </div>
+    <div class="menuItems" onmouseleave="closeMenu()">
+        <div class="row" id="linkarea" data-lift="page.MenuSn.menu">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 linkareaCol" ></div>
+            <div class="col-lg-2" data-lift="page.MenuSn.submenu">
+
+
+                <a href="/user_mgt/logout" class="login">
+                    Wyloguj
+                </a>
+
+                <hr/>
+                <div role="search" >
+                    <div class="form-group">
+                        <input id="toSearch" placeholder="Szukaj z Google" onkeypress="pressEnter(event)" class="form-control" type="text">
+                        <button onclick="searchGoogle()" class="btn btn-default"
+                                style="width:100%;" id="toSearchBut" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <span class="glyphicon glyphicon-remove menuCloseBtn" id="closeButton"></span></div>
+        </div>
+    </div>
+</nav>
+
+<div data-lift="page.PageSn.slide" style="position: relative;">
+        <div id="slideInfo"></div>
+        <img  id="slideImg" src="/style/edukacja.jpg" style="width: 100%" />
+        <span id="flashTile"></span>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+        <div class="row">
+            <div class="col-lg-9" data-lift="page.PageSn.switchContent">
+
+                <div id="newsCont">
+                    <h1 style="text-align: center; margin: 15px;">Aktualności <small id="departmentInfo"></small></h1>
+
+                    <div class="newsInfo "></div>
+                    <div class="clear"></div>
+                    <div id="oneNews" class="lift:page.PageSn.showOneNews">
+                        <input id="hiddenAjaxText" style="display: none;"/>
+
+                        <div id="ajaxNews">
+                            <br/>
+                        </div>
+                    </div>
+                    <ul class="pagination">
+                        <li></li>
+                    </ul>
+                </div>
+
+                <div class="row" id="articleCont">
+                    <div class="col-lg-12">
+                        <div id="depBody"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <h3>Menu: </h3>
+                <div class="list-group" data-lift="page.PageSn.buildMenu">
+                    <a  href="">Aktualności</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<footer class="footer">
+    <p> Programmed by: <a href="http://osp.edu.pl">Mikołaj Sochacki, OpenSchoolPlatform</a> &copy; &nbsp; &nbsp;
+        <span class="lift:Msgs?showAll=true"></span>  <a href="#logopng">↑ Do góry ↑</a> </p>
+</footer>
+
+<script src="/jqueryui/jquery-ui.min.js" type="text/javascript"></script>
+<!-- <script src="/jquery/logoandfavicon.js" type="text/javascript"></script> -->
+<script src="/jquery/menu.js" type="text/javascript"></script>
+<script>
+    document.getElementById("closeFlash").addEventListener("click", function(event){
+        event.stopPropagation();
+        $("#flashTilesContainer").hide(200);
+    });
+   function redirectToPage(path) {
+    var ar = window.location.href.split('/');
+    var newPath = ar[0]+ "//" + ar[2] + path;
+    window.location.assign(newPath);
+   }
+   setTimeout( function(){
+        $("#flashTilesContainer").hide(200);
+   }, 20000);
+</script>
+</body>
+</html>
+
+
