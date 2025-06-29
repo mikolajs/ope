@@ -57,6 +57,9 @@ class User extends MegaProtoUser[User] {
   object birthPlace extends MappedString(this, 30)
   object birthDistrict extends MappedString(this, 40)
   object address extends MappedText(this)
+
+  private def birthDisctrict(str: String) = ???
+
   object pesel extends MappedString(this, 11)
   object classId extends MappedLongForeignKey(this, ClassModel);
   object classInfo extends MappedString(this, 3) {

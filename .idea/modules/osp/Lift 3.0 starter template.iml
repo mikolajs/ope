@@ -24,6 +24,8 @@
     <orderEntry type="library" name="sbt: net.liftweb:lift-actor_2.13:3.5.0:jar" level="project" />
     <orderEntry type="library" name="sbt: net.liftweb:lift-mongodb_2.13:3.5.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.postgresql:postgresql:42.2.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.sun.xml.messaging.saaj:saaj-impl:2.0.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.jsoup:jsoup:1.8.3:jar" level="project" />
     <orderEntry type="library" name="sbt: ch.qos.logback:logback-classic:1.2.3:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: javax.servlet:javax.servlet-api:3.0.1:jar" level="project" />
     <orderEntry type="library" name="sbt: net.liftweb:lift-util_2.13:3.5.0:jar" level="project" />
@@ -37,6 +39,9 @@
     <orderEntry type="library" name="sbt: net.liftweb:lift-json-ext_2.13:3.5.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.mongodb:mongodb-driver:3.12.7:jar" level="project" />
     <orderEntry type="library" name="sbt: org.mongodb:mongodb-driver-async:3.12.7:jar" level="project" />
+    <orderEntry type="library" name="sbt: jakarta.xml.soap:jakarta.xml.soap-api:2.0.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.jvnet.staxex:stax-ex:2.0.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.sun.activation:jakarta.activation:2.0.1:jar" level="project" />
     <orderEntry type="library" name="sbt: ch.qos.logback:logback-core:1.2.3:jar" level="project" />
     <orderEntry type="library" name="sbt: org.slf4j:slf4j-api:1.7.25:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scala-compiler:2.13.4:jar" level="project" />

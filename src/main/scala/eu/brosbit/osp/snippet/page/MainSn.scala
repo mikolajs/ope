@@ -7,7 +7,7 @@ package eu.brosbit.osp.snippet.page
 
 import _root_.net.liftweb.util.Mailer.{PlainMailBodyType, To, Subject, From}
 
-import scala.xml.{Unparsed}
+import scala.xml.Unparsed
 import _root_.net.liftweb._
 import util._
 import common._
