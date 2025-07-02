@@ -1,9 +1,9 @@
 <div class="lift:surround?with=educontent;at=content">
     <head_merge> <script type="text/javascript"
                          src="/ckeditor/ckeditor.js"></script> <script type="text/javascript"
-                                                                       src="/jquery/ckeditorresource.js"></script> <script
-            type="text/javascript" src="/jquery/dejavu.js"></script> <script
-            type="text/javascript" src="/jquery/editpresentation.js"></script>
+                                                                       src="/jquery/ckeditorresource.js"></script>
+        <script type="text/javascript" src="/jquery/dejavu.js"></script>
+        <script type="text/javascript" src="/jquery/editpresentation.js"></script>
         <link href="/deckjs/themes/style/swiss_ckeditor.css"
               id="style-theme-link" type="text/css" rel="stylesheet">
 
@@ -63,8 +63,6 @@ body {
 	width: 100%;
 }
 
-
-
 .slide {
     position: relative;
 	padding: 10px 10px;
@@ -77,14 +75,12 @@ body {
 	background-color: white;
 }
 
-
 .slide > section  {
  width: 900px; height: 600px;
  position: absolute;
  top: 0; left: 0;
  transform: translate(-33%, -33%) scale(0.33, 0.33);
 }
-
 
 #slideEdit {
 	padding: 20px 20px;
@@ -135,15 +131,15 @@ input[type=submit] {
 pre > code {
     font-size: 1.4em;
 }
-</style>
 
+</style>
 
     </head_merge>
 
     <div id="editContent">
         <div class="jumbotron">
             <h2>Edycja prezentacji</h2>
-
+            <a href="/educontent/presentations" class="btn btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Powrót</a>
         </div>
         <div class="row">
             <div class="col-lg-2"></div>

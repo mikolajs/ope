@@ -1,5 +1,5 @@
 <!doctype HTML>
-<html>
+<html lang="pl">
     
   <head>
   <meta charset="utf-8">
@@ -27,7 +27,17 @@
   .navbar {
   	margin-bottom: 0 !important;
   }
- 
+  .navbar-nav > li > span {
+      padding: 15px;
+      color: #ccd;
+      background-color: #111;
+
+  }
+  .nav > li > span {
+      position: relative;
+      display: block;
+  }
+
  
  </style>
 </head>
@@ -45,10 +55,10 @@
           <a class="navbar-brand" href="/login"><img id="logopng" src="/images/media/logo.png" /></a>
         </div>
         <div class="collapse navbar-collapse" id="navBar">     
-        <ul class="nav navbar-nav "  
-        data-lift="Menu.builder?linkToSelf=true;li_item:class=active;group=edu;ul:class=nav navbar-nav"  ></ul>    
+        <ul class="nav navbar-nav" data-lift="Menu.builder?linkToSelf=false;ul:class=nav navbar-nav;group=edu;li_item:=active;"></ul>
         <ul data-lift="LoginSn.show" class="nav navbar-nav navbar-right "><li class="loginLi"><a href=""  id="logInfo"  ></a></li> </ul>
     </div>
+
    </div>
   </div>
   <div class="container-fluid">

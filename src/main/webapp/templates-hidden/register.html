@@ -15,6 +15,18 @@
     <link rel="stylesheet" type="text/css" href="/jqueryui/custom.css"/>
     <link rel="stylesheet" type="text/css" href="/style/jquery.dataTables.css"/>
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        .navbar-nav > li > span {
+            padding: 15px;
+            color: #ccd;
+            background-color: #111;
+
+        }
+        .nav > li > span {
+            position: relative;
+            display: block;
+        }
+    </style>
 </head>
 <body id="body">
 <!-- Header -->
@@ -24,9 +36,7 @@
             <a class="navbar-brand" href="/login"><img id="logopng" src="/images/media/logo.png" /></a>
         </div>
         <div class="collapse navbar-collapse" id="navBar">
-            <ul class="nav navbar-nav "
-                data-lift="Menu.builder?linkToSelf=true;li_item:class=active;group=register;ul:class=nav navbar-nav">
-            </ul>
+            <ul class="nav navbar-nav" data-lift="Menu.builder?linkToSelf=false;ul:class=nav navbar-nav;group=register;li_item:=active;"></ul>
             <div class="navbar-right">
                 <ul data-lift="LoginSn.show" class="nav navbar-nav navbar-right ">
                     <li class="loginLi"><a href="" id="logInfo"></a></li>

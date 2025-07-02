@@ -12,7 +12,6 @@ import eu.brosbit.osp.lib.Formater
 import java.util.Date
 import net.liftweb.http.js.JsCmd
 import net.liftweb.http.js.JsCmds.{Run, SetHtml}
-
 import scala.xml.Unparsed
 
 
