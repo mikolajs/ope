@@ -18,15 +18,24 @@ object SubjectChoose extends SessionVar[Long](0L)
 
 object LevelChoose extends SessionVar[Int](1)
 
+object LoginStrings {
+  val main: Array[String] = Array("Strona główna", "Informacje ogólne, aktualności, kontakt", "/index")
+  val pupils: Array[String] = Array("Uczniowie", "Dostęp do platformy: materiały, sprawdziany", "/view/courses")
+  val teachers: Array[String] = Array("Nauczyciele – edycja materiałów", "Dodawanie materiałów i edycja lekcji udostępnianych uczniom", "/educontent/index")
+  val secretariat: Array[String] = Array("Edycja nauczycieli i uczniów", "Dodawanie nauczycieli, klas, i uczniów", "/secretariat/index")
+  val register: Array[String] = Array("Dziennik", "Dane uczniów, zmiana haseł", "/register/index")
+  val admin: Array[String] = Array("Zarządzanie aplikacją", "Zmiana ustwień strony głównej, usuwanie nieużytków", "/admin/index")
+}
+
 class LoginSn {
-  val redirectUrl = S.queryString.map(s => {
+  private val redirectUrl = S.queryString.map(s => {
     val arr = s.drop(2).split('&')
     arr.head + (if(arr.length > 1) "?" + arr.drop(1).mkString("&") else "")
   }).getOrElse("/login")
-  val userBox = User.currentUser
+  private val userBox = User.currentUser
   //println("RedirectTo: " + redirectUrl)
 
-  def show() = {
+  def show(): CssSel = {
     userBox match {
       case Full(user) =>
         "#logInfo" #> <span>
@@ -48,7 +57,7 @@ class LoginSn {
     }
   }
 
-  def mkLogIn() = {
+  def mkLogIn(): CssSel = {
     var login = ""
     var pass = ""
     var message = ""
@@ -104,71 +113,43 @@ class LoginSn {
 
   def showMenu():CssSel = {
     val loged_? = !userBox.isEmpty
-    var viewH = "#"
-    var viewC = "btn btn-default btn-lg"
-    var secretariatH = "#"
-    var secretariatC = "btn btn-default btn-lg"
-    var educontentH = "#"
-    var educontentC = "btn btn-default btn-lg"
-    var registerH = "#"
-    var registerC = "btn btn-default btn-lg"
-    var docH = "#"
-    var docC = "btn btn-default btn-lg"
-    var galH = "#"
-    var galC = "btn btn-default btn-lg"
-    var slideH = "#"
-    var slideC = "btn btn-default btn-lg"
+    var allMenu: List[Array[String]] = List(LoginStrings.main)
     if (loged_?) {
       val user = userBox.openOrThrowException("Niemożliwe box nie jest pusty!")
-      if (user.role.get == "n" || user.role.get == "a" || user.role.get == "d") {
-        educontentH = "/educontent/index"
-        educontentC = "btn btn-info btn-lg"
-        registerH = "/register/index"
-        registerC = "btn btn-info btn-lg"
-        docH = "/documents/doctemplate"
-        docC = "btn btn-info btn-lg"
-        galH = "/galleries"
-        galC = "btn btn-info btn-lg"
-        slideH = "/editslideimg"
-        slideC = "btn btn-info btn-lg"
-
-      }
-      else {
-        if (user.role.get == "u" || user.role.get == "r") {
-          viewH = "/view/courses"
-          viewC = "btn btn-info btn-lg"
-        }
-      }
-      if (user.role.get == "s" || user.role.get == "a" || user.role.get == "d") {
-        secretariatH = "/secretariat/index"
-        secretariatC = "btn btn-info btn-lg"
-      }
+      val role = user.role.get
+      if (role == "n" || role == "a") allMenu = LoginStrings.register :: allMenu
+      if (role == "n") allMenu = LoginStrings.teachers::allMenu
+      if (role == "u" ) allMenu = LoginStrings.pupils::allMenu
+      if (role == "s" || role == "a") allMenu = LoginStrings.secretariat::allMenu
+      if (role == "a" ) allMenu = LoginStrings.admin::allMenu
     }
-    "#viewA [href]" #> viewH &
-      "#viewA [class]" #> viewC &
-      "#secretariatA [href]" #> secretariatH &
-      "#secretariatA [class]" #> secretariatC &
-      "#educontentA [href]" #> educontentH &
-      "#educontentA [class]" #> educontentC &
-      "#registerA [href]" #> registerH &
-      "#registerA [class]" #> registerC &
-      "#docA [href]" #> docH &
-      "#docA [class]" #> docC &
-      "#slideimg [href]" #> slideH &
-      "#slideimg [class]" #> slideC &
-      "#galleries [href]" #> galH &
-      "#galleries [class]" #> galC
+    val htmlToAdd = createHTML(allMenu.reverse)
 
-
+      "#menuInfo" #> htmlToAdd
   }
 
-  private def intalizeSubjectAndLevelChoice(user: User):Unit = {
-    val subjs = SubjectTeach.findAll(("authorId" -> user.id.get), ("$orderby" -> ("prior" -> 1)))
+  private def initializeSubjectAndLevelChoice(user: User):Unit = {
+    val subjs: Seq[SubjectTeach] = SubjectTeach.findAll("authorId" -> user.id.get, "$orderby" -> ("prior" -> 1))
     if (subjs.nonEmpty) {
       SubjectChoose.set(subjs.head.id)
       LevelChoose.set(subjs.head.lev)
     }
+  }
 
+  private def mkOptionMenu(title:String, info:String, link:String) = {
+    <div class="col-lg-6">
+      <h2>{title}</h2>
+      <p>{info}</p>
+      <p>
+        <a id="pageA" href={link} role="button" class="btn btn-info btn-lg">Przejdź
+          <span class="glyphicon glyphicon-forward"></span>
+        </a>
+      </p>
+      </div>
+  }
+
+  private def createHTML(menu:List[Array[String]])  = {
+    menu.map(arr => mkOptionMenu(arr(0), arr(1), arr(2)))
   }
 
 }

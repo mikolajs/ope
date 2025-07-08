@@ -11,7 +11,12 @@
             document.getElementById('frm1').reset()
             document.getElementById('newInfo').innerHTML = "Nowy slajd";
         }
-
+        function getImageURLfromIFrame(elem){
+            var innerDoc = elem.contentDocument || elem.contentWindow.document;
+            var url  = innerDoc.getElementById('linkpath').innerHTML.trim();
+            console.log("found url: " + url);
+            $('#maps').val(url);
+        }
 
         </script>
     </head_merge>
@@ -31,16 +36,18 @@
                 <p><label for="phone">Telefon: </label><input class="form-control"  id="phone"/></p>
                 <p><label for="fax">Faks: </label><input class="form-control"  id="fax"/></p>
                 <p><label for="email">E-mail: </label><input class="form-control"  id="email"/></p>
-                <p><label for="maps">Google map (skopiuj tag z iframe): </label><input class="form-control"  id="maps"/></p>
-                <p><input id="save" class="btn btn-success"/>
+                <p><label for="maps">Mapa położenia: </label><input class="form-control" style="display:none" id="maps" type="url"/></p>
+                <p><img src="" id="mapsImg" alt="brak" width="100%"/></p>
+                <p><input id="save" class="btn btn-success" type="submit"/>
                     <input type="button" class="btn btn-default" onclick="clearForm()" value="Czyść!"/></p>
 
                 <p id="notice"></p>
             </fieldset>
         </form>
         <hr/>
-
-
+        <p>Zapisz dokument po dodaniu pliku mapy</p>
+        <iframe onload="getImageURLfromIFrame(this)" src='/imgstorage?s=l' width='95%' height='170px'>
+            <p>Brak obsługi ifame!</p></iframe>
 </div>
 </div>
 </body>

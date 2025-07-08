@@ -54,6 +54,8 @@ class Boot {
     LiftRules.addToPackages("eu.brosbit.osp.snippet.edu")
     LiftRules.addToPackages("eu.brosbit.osp.snippet.register")
     LiftRules.addToPackages("eu.brosbit.osp.snippet.secretariat")
+    LiftRules.addToPackages("eu.brosbit.osp.snippet.pub")
+    LiftRules.addToPackages("eu.brosbit.osp.snippet.admin")
 
     Schemifier.schemify(true, Schemifier.infoF _, User, ClassModel, MarkMap, SubjectName)
     LiftRules.statelessDispatch.append({

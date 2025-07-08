@@ -12,8 +12,6 @@ import eu.brosbit.osp.model._
 class BaseTeacher {
   val user: User.TheUserType = User.currentUser.openOr(S.redirectTo("/login"))
 
-
-
   def chosenClass():CssSel = {
     if (ClassChoose.is == 0) S.redirectTo("/register/index")
     else "#choosenclass *" #> ClassString.is

@@ -22,7 +22,8 @@ class MainTeacher {
   def classList():CssSel = {
     val classParamStr = S.param("class").openOr("0")
     val paramClass = tryo(classParamStr.toInt).getOrElse(0)
-    val classes = ClassModel.findAll(By(ClassModel.teacher, user.id.get),OrderBy(ClassModel.level, Ascending)).filter(!_.scratched.get)
+    val classes = if(user.role.get == "t") ClassModel.findAll(By(ClassModel.teacher, user.id.get),OrderBy(ClassModel.level, Ascending)).filter(!_.scratched.get)
+    else ClassModel.findAll(OrderBy(ClassModel.level, Ascending)).filter(!_.scratched.get)
     if (paramClass != 0) {
       val chosenClass = classes.filter(theClass => theClass.id.get == paramClass)
       chosenClass match {

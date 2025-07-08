@@ -3,10 +3,12 @@ package eu.brosbit.osp.model
 import eu.brosbit.osp.lib.ZeroObjectId
 import net.liftweb.json.DefaultFormats
 import net.liftweb.mongodb.{DateSerializer, MongoDocument, MongoDocumentMeta, ObjectIdSerializer}
+import net.liftweb.util.ConnectionIdentifier
 import org.bson.types.ObjectId
 
 object TestProblemTry extends MongoDocumentMeta[TestProblemTry] {
   override def collectionName = "TestProblemTry"
+  override def connectionIdentifier: ConnectionIdentifier = bootstrap.liftweb.MongoConnectionIdentifier
   override def formats = super.formats + new ObjectIdSerializer + new DateSerializer
   def create = TestProblemTry(ObjectId.get, ZeroObjectId.get, 0, "", false, "", false, 0L, false, 0L, "",  "")
 }

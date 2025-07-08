@@ -1,10 +1,8 @@
-package eu.brosbit.osp.snippet.edu
+package eu.brosbit.osp.model
 
 import _root_.net.liftweb.mongodb._
 import net.liftweb.util.ConnectionIdentifier
 import org.bson.types.ObjectId
-
-import java.util.Date
 
 object ImagesResource extends MongoDocumentMeta[ImagesResource] {
   override def collectionName = "departments"

@@ -23,6 +23,7 @@ class GCFiles {
 
   private def getOnlyToDeleteFiles(allInDB:List[FileToDelInfo], toStayId:List[String]) = {
     ///TODO: filter to stay
+    /// TODO: looking files in logo and favicon, pages department images
     //toStayId.foreach(println)
     allInDB.filterNot(fi => toStayId.contains(fi.id))
   }
@@ -132,7 +133,17 @@ class GCFiles {
     reg.findAllIn(dataStr).toList.map(s => s.split('/')(2))
   }
 
-  private def getAllFilesExists() = {
+  private def getAllMapExtraData:List[String] = {
+    var dataStr: List[String] = Nil
+    val med = MapExtraData.getMapData("logopath")
+    if(med.contains("logo")) dataStr = med("logo").split('.').head :: dataStr
+    if(med.contains("favi")) dataStr = med("favi").split('.').head :: dataStr
+    val med2 = MapExtraData.getMapData("contactInfo")
+    if(med2.contains("maps")) dataStr = med2("maps").split('/').last.split('.').head :: dataStr
+    dataStr
+  }
+
+  private def getAllFilesExists = {
     getAllFilesInPresentations ++
     getAllFilesInDocuments ++
     getAllFilesInSlidesImg ++
@@ -145,13 +156,14 @@ class GCFiles {
       getAllFilesInTestProblems ++
       getAllFilesInAnswerExams ++
       getAllFilesInLessons ++
-      getAllFilesInQuestions
+      getAllFilesInQuestions ++
+      getAllMapExtraData
   }
   //for test
   def getAllToDelete:List[FileToDelInfo] = {
     //notes
     //files in answer students
-    val mustStay = getAllFilesExists()
+    val mustStay = getAllFilesExists
     val all = getFileList
     println("getAllFiles in database size: " + all.size)
     getOnlyToDeleteFiles(all, mustStay)

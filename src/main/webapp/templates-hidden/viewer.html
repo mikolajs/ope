@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS_HTML">
 		</script>
-      <link id="favicon" href="/images/media/flavicon.ico" type="image/ico" rel="icon"/>
+      <link id="favicon" href="/images/media/favicon.ico" type="image/ico" rel="icon"/>
 
        <link href="/style.css"  rel="stylesheet"/>
   <title> Portal edukacyjny OPOS</title>
@@ -17,6 +17,18 @@
 
       <link rel="stylesheet" type="text/css" href="/jqueryui/jquery-ui.css" />
       <link rel="stylesheet" type="text/css" href="/jqueryui/custom.css" />
+      <style>
+          .navbar-nav > li > span {
+              padding: 15px 15px 10px 15px;
+              color: #ccd;
+              background-color: #111;
+
+          }
+          .nav > li > span {
+              position: relative;
+              display: block;
+          }
+      </style>
   </head>
   <body>
    <div class="container-fluid">
@@ -32,8 +44,7 @@
           <a class="navbar-brand" href="/login"><img id="logopng" src="/images/media/logo.png" /></a>
         </div>
         <div class="navbar-collapse collapse">
-         <ul class="nav navbar-nav "  
-        data-lift="Menu.builder?linkToSelf=true;li_item:class=active;group=view;ul:class=nav navbar-nav"></ul>
+            <ul class="nav navbar-nav" data-lift="Menu.builder?linkToSelf=false;ul:class=nav navbar-nav;group=view;li_item:class=active;"></ul>
             <div class="collapse navbar-collapse" id="navBar">
                 <ul data-lift="LoginSn.show" class="nav navbar-nav navbar-right ">
                     <li class="loginLi"><a href="" id="logInfo" ></a></li>

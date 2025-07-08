@@ -21,7 +21,8 @@ object ImageLoader {
     MongoDB.use(MongoConnectionIdentifier) {
       db =>
         val fs = new GridFS(db)
-        val foundFile = fs.findOne(new org.bson.types.ObjectId(id))
+        val ID = id.split('.').head
+        val foundFile = fs.findOne(new org.bson.types.ObjectId(ID))
         if (foundFile == null) println("++!!!!!!!!!!!!!!!!!!!!!! imageLoader file is null " + id + " !!!!!!!!!!!!!!!!!!!!!!!!!")
         else {
           foundFile.writeTo(outputStream)
