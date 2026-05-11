@@ -1,10 +1,10 @@
-name := "Lift 3.0 starter template"
+name := "ope_edu_pl"
 
-version := "0.1.0"
+version := "0.1.3"
 
 organization := "eu.brosbit"
 
-scalaVersion := "2.13.4"
+scalaVersion := "2.13.16"
 
 resolvers ++= Seq(
   "snapshots"     at "https://oss.sonatype.org/content/repositories/snapshots",
@@ -29,6 +29,7 @@ libraryDependencies ++= {
     "org.postgresql" % "postgresql" % "42.2.5",
     "com.sun.xml.messaging.saaj" % "saaj-impl" % "2.0.1",
     "org.jsoup" % "jsoup" % "1.8.3",
+     "org.jopendocument" % "jOpenDocument" % "1.3",
     "ch.qos.logback"    % "logback-classic"         % "1.2.3",
     "javax.servlet"     % "javax.servlet-api"       % "3.0.1"            % "provided"
   )

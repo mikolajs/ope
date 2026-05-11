@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/osp/Lift 3.0 starter template.iml" filepath="$PROJECT_DIR$/.idea/modules/osp/Lift 3.0 starter template.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/osp/Lift 3.0 starter template.Lift 3.0 starter template-build.iml" filepath="$PROJECT_DIR$/.idea/modules/osp/Lift 3.0 starter template.Lift 3.0 starter template-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.iml" filepath="$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.ope_edu_pl-build.iml" filepath="$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.ope_edu_pl-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.test.iml" />
     </modules>
   </component>
 </project>

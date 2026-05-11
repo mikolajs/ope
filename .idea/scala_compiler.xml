@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <profile name="sbt 1" modules="osp_8733" />
-    <profile name="sbt 2" modules="Lift 3.0 starter template">
+    <option name="separateProdTestSources" value="true" />
+    <profile name="sbt 1" modules="Lift 3.0 starter template,ope_edu_pl,osp_8733" />
+    <profile name="sbt 2" modules="Lift 3.0 starter template.test,ope_edu_pl.test">
+      <option name="deprecationWarnings" value="true" />
+      <option name="uncheckedWarnings" value="true" />
+      <parameters>
+        <parameter value="-Yrangepos" />
+      </parameters>
+    </profile>
+    <profile name="sbt 3" modules="Lift 3.0 starter template.main,ope_edu_pl.main">
       <option name="deprecationWarnings" value="true" />
       <option name="uncheckedWarnings" value="true" />
     </profile>

@@ -13,9 +13,10 @@ import com.mongodb.MongoClient
 
 import java.sql.{Connection, DriverManager}
 import _root_.net.liftweb.mapper.{ConnectionIdentifier, ConnectionManager, DB, DefaultConnectionIdentifier, Schemifier}
-import eu.brosbit.osp.api.{ImageLoader, Exports, FileLoader, TemplateDocumentCreater, SlideImg, ConfigLoader => CL}
-import eu.brosbit.osp.lib.MailConfig
-import eu.brosbit.osp.model._
+import eu.brosbit.ope.api.{ImageLoader, Exports, FileLoader, TemplateDocumentCreater, SlideImg, ConfigLoader}
+import eu.brosbit.ope.lib.ExamFileOdt
+import eu.brosbit.ope.lib.MailConfig
+import eu.brosbit.ope.model._
 /**
  * A class that's instantiated early and run.  It allows the application
  * to modify lift's environment
@@ -25,7 +26,7 @@ object DBVendor extends ConnectionManager {
     try {
       //Class.forName(classOf[org.postgresql.Driver].getName)
       Class.forName("org.postgresql.Driver")
-      val dm = DriverManager.getConnection("jdbc:postgresql:"+CL.sqlDB, CL.sqlDB, CL.sqlPassw)
+      val dm = DriverManager.getConnection("jdbc:postgresql:"+ConfigLoader.sqlDB, ConfigLoader.sqlDB, ConfigLoader.sqlPassw)
       Full(dm)
     } catch {
       case e: Exception => e.printStackTrace(); Empty
@@ -43,19 +44,20 @@ object MongoConnectionIdentifier extends ConnectionIdentifier {
 
 class Boot {
   def boot():Unit = {
-    CL.init
-
+    ConfigLoader.init
+    //println("Print config info")
+    //println(ConfigLoader.printInfo)
     DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
-    val mongoClient = new MongoClient("127.0.0.1", CL.mongoPort)
-    MongoDB.defineDb(MongoConnectionIdentifier, mongoClient, CL.mongoDB)
+    val mongoClient = new MongoClient("127.0.0.1", ConfigLoader.mongoPort)
+    MongoDB.defineDb(MongoConnectionIdentifier, mongoClient, ConfigLoader.mongoDB)
     // where to search snippet
-    LiftRules.addToPackages("eu.brosbit.osp")
-    LiftRules.addToPackages("eu.brosbit.osp.snippet.page")
-    LiftRules.addToPackages("eu.brosbit.osp.snippet.edu")
-    LiftRules.addToPackages("eu.brosbit.osp.snippet.register")
-    LiftRules.addToPackages("eu.brosbit.osp.snippet.secretariat")
-    LiftRules.addToPackages("eu.brosbit.osp.snippet.pub")
-    LiftRules.addToPackages("eu.brosbit.osp.snippet.admin")
+    LiftRules.addToPackages("eu.brosbit.ope")
+    LiftRules.addToPackages("eu.brosbit.ope.snippet.page")
+    LiftRules.addToPackages("eu.brosbit.ope.snippet.edu")
+    LiftRules.addToPackages("eu.brosbit.ope.snippet.register")
+    LiftRules.addToPackages("eu.brosbit.ope.snippet.secretariat")
+    LiftRules.addToPackages("eu.brosbit.ope.snippet.pub")
+    LiftRules.addToPackages("eu.brosbit.ope.snippet.admin")
 
     Schemifier.schemify(true, Schemifier.infoF _, User, ClassModel, MarkMap, SubjectName)
     LiftRules.statelessDispatch.append({
@@ -63,6 +65,7 @@ class Boot {
       case Req("file" :: id :: Nil, _, GetRequest) => () => FileLoader.file(id)
       case Req("getdocument" :: id :: Nil, _, GetRequest) => () => TemplateDocumentCreater.create(id)
       case Req("getimgslide" :: Nil,  _, GetRequest) => () => SlideImg.create
+      case Req("getOdtExam":: id :: Nil, _, GetRequest) => () => ExamFileOdt.getDoc(id)
     })
 
     LiftRules.dispatch.append({
@@ -207,7 +210,8 @@ class Boot {
         Menu("Eksport") / "educontent" / "export" / ** >> LocGroup("extra") >> Hidden >> isTeacher,
         Menu("Slajdy") / "educontent" / "showlessonslides" / ** >> LocGroup("extra") >> Hidden >> isTeacher,
         Menu("Edycja problemów") / "educontent" / "editproblem" / ** >> LocGroup("extra") >> Hidden >> isTeacher,
-        Menu("Otwarte kursy") / "public" / "index" >> LocGroup("pub"),
+        //Menu(Loc("Otwarte kursy", Loc.Link(List("public"), false, "/public/index"), "pub")),
+	      Menu("Otwarte kursy") / "public" / "index" >> LocGroup("pub"),
         Menu("Otwarta lekcja") / "public" / "course" / ** >> LocGroup("pub"),
 
         //Menu("Test") / "test1234qwerty" >> LocGroup("extra"),
@@ -217,6 +221,10 @@ class Boot {
     LiftRules.setSiteMapFunc(sitemap)
 
     LiftRules.statelessRewrite.prepend(NamedPF("ClassRewrite") {
+      case RewriteRequest(
+      ParsePath("public" :: Nil, _, _, _), _, _) =>
+        RewriteResponse(
+          "public" :: "index" :: Nil, false)
       case RewriteRequest(
       ParsePath("gallery" :: id :: Nil, _, _, _), _, _) =>
         RewriteResponse(
@@ -399,7 +407,9 @@ class Boot {
     LiftRules.maxMimeFileSize = 512 * 1024 * 1024
 
     {
-      new MailConfig().autoConfigure()
+     val mailer = new MailConfig()
+     mailer.setConfigParams(ConfigLoader.emailSMTP, ConfigLoader.emailPort, ConfigLoader.emailAddr, ConfigLoader.emailPassw)
+     mailer.autoConfigure()
     }
 
     LiftRules.liftRequest.append {
