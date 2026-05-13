@@ -65,7 +65,7 @@ class Boot {
       case Req("file" :: id :: Nil, _, GetRequest) => () => FileLoader.file(id)
       case Req("getdocument" :: id :: Nil, _, GetRequest) => () => TemplateDocumentCreater.create(id)
       case Req("getimgslide" :: Nil,  _, GetRequest) => () => SlideImg.create
-      case Req("getOdtExam":: id :: Nil, _, GetRequest) => () => ExamFileOdt.getDoc(id)
+      case Req("getOdtExam" :: id :: Nil, _, GetRequest) => () => {ExamFileOdt.getDoc(id)}
     })
 
     LiftRules.dispatch.append({

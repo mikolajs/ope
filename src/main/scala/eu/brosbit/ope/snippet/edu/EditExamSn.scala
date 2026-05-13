@@ -10,7 +10,7 @@ import eu.brosbit.ope.model._
 import Helpers._
 import json.JsonDSL._
 import org.bson.types.ObjectId
-import eu.brosbit.ope.lib.{CreateTextExam, ExamFileOdt, Formater}
+import eu.brosbit.ope.lib.{ExamFileOdt, Formater}
 import net.liftweb.json.JsonAST.RenderSettings.compact
 import net.liftweb.json.JsonAST.render
 
@@ -101,13 +101,12 @@ class EditExamSn extends BaseResourceSn {
   }
 
   def createDoc(): CssSel = {
-    var fullPath = ""
+    var fullPath = s"/getOdtExam/$examId"
     def create(): Unit = {
       ExamFileOdt.createExamFileOdt(examId)
-      fullPath = s"/getDoc/$examId"
     }
-    "#dokument" #> SHtml.submit("Utwórz", create) &
-    "#doclink [href]" #> fullPath
+    "#buttonDoc" #> SHtml.submit("Utwórz", create) &
+    "#docLink [href]" #> fullPath
   }
   /*
     def showAllQuizzes() = {
