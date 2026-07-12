@@ -1,0 +1,207 @@
+
+#add nr property to pagedepartment
+
+db.pagedepartment.update({},{$set: {"nr": 88}}, false, true);
+
+#update articleshead push department id insted name - nadać jeden dział, a potem poprawić
+
+db.articlehead.update({},{$set:{"departmentId":ObjectId("53b424ad44aef2e4d4064003")}}, false, true)
+
+
+#move newshead to articlehead
+
+var cursor = db.newshead.find()
+while(cursor.hasNext()) {
+    var ns = cursor.next();
+    db.articlehead.insert({ "title" : ns.title, "authorName" : ns.authorName, authorId: ns.authorId, "tags" : ns.tags, "thumbnailLink" : ns.thumbnailLink, "introduction" : ns.introduction, "news" : true, "content" : ns.content, "departmentId" : ObjectId("000000000000000000000000") });
+}
+
+#copy introduction to content article
+
+
+var cursor = db.articlehead.find();
+while(cursor.hasNext()) {
+    var ah = cursor.next();
+    var acCur = db.articlecontent.find({'_id' : ah.content});
+    if(acCur.hasNext()) {
+        var ac = acCur.next();
+        var newCont = ah.introduction + "<p></p>" + ac.content;
+        db.articlecontent.update({'_id' : ac._id}, {$set: {"content": newCont}}, false, false);
+    }   
+}
+
+#move pagehead to articlehead
+
+var cursor = db.pagehead.find()
+while(cursor.hasNext()) {
+    var ns = cursor.next();
+    var idDep = db.pagedepartment.find({'name' : ns.department}).next()._id;
+    db.articlehead.insert({ "title" : ns.title, "authorName" : ns.authorName, authorId: ns.authorId, "tags" : [], "thumbnailLink" : "", "introduction" : "", "news" : false, "content" : ns.content, "departmentId" : idDep });
+}
+
+#move GSF to articlehead and articlecontent
+
+var idGSF = ObjectId("53d950a5e4b084cc5aabf042");
+var cursor = db.gsfarticle.find();
+while(cursor.hasNext()) {
+    var gsfa = cursor.next();
+    db.articlecontent.insert({'content': gsfa.content })
+    db.articlehead.insert({ "title" : gsfa.title, "authorName" : ns.authorName, authorId: 1, "tags" : [], "thumbnailLink" : "", "introduction" : "", "news" : false, "content" : ns.content, "departmentId" : idDep });
+}
+
+
+#update after change subjectTech level add:
+db.subjectsTeach.update({},{$set: {lev: 1}} , true, true, true);
+
+#update level to video
+db.videos.update({},{$set: {lev: 1}} , true, true, true);
+#update lavel to article
+db.documents.update({},{$set: {lev: 1}} , true, true, true);
+
+#change map in courses;
+db.courses.update({},{$set: {chapters: []}} , true, true, true); 
+
+#add chapterId to lessons
+db.lessons.update({},{$set: {chapter: ""}} , true, true, true);
+
+#change ownerID na authorId:
+
+var cursor = db.documents.find();
+while(cursor.hasNext()) {
+    var doc = cursor.next();   
+    var ownId = doc.ownerID;
+    var ownName = doc.ownerName;
+    print(doc._id + ": " +ownId + " " + ownName);  
+    db.documents.update({'_id' : doc._id}, {$set: {"authorId": ownId}}, true, true, true);  
+    db.documents.update({'_id' : doc._id}, {$set: {"authorName": ownName}}, true, true, true); 
+}
+
+#change what member in lessons 
+
+var maped = {"doc":"d", "video":"v", "word":"w", "quest":"q"}
+var cursor = db.lessons.find();
+while(cursor.hasNext()) {
+    var less = cursor.next();
+    
+    var newCont = less.contents;  
+    print(less.title); 
+    for(i in newCont) {
+        newCont[i].what = maped[newCont[i].what];
+    } 
+    db.lessons.update({'_id' : less._id}, {$set: {"contents": newCont}}, false, false);   
+}
+
+#move video
+
+var cursor = db.videos.find({'authorId':3, 'onServer':true});
+while(cursor.hasNext()) {
+   var video = cursor.next();
+   var path = "/Video/" + video.oldPath
+   print(path);
+   db.videos.update({'_id':video._id}, {$set: {"oldPath": path}} ,true, true, true);
+}
+
+
+ar cursor = db.doctemplatehead.find({"_id" : ObjectId("54ddf79844ae2719b8c2e025")});
+while(cursor.hasNext()) {
+   var d = cursor.next(); 
+   print(d.tab);
+db.doctemplatehead.update({"_id" : ObjectId("54ddf79844ae2719b8c2e025")}, {$set: {'tab':
+}
+
+#change nothumb.png location
+ db.articlehead.update({ thumbnailLink: '/style/images/nothumb.png'},{$set: {thumbnailLink: '/images/nothumb.png'}} , true, true, true);
+
+#add prior field
+db.articlehead.update({},{$set: {prior: 99}} , true, true, true);
+
+#add courses pub field as false:
+db.courses.update({},{$set: {pub: false}} , true, true, true);
+
+#add nr in quizQuestion, add nr. 
+db.questions.update({ },{$set: {nr: 0}} , true, true, true);
+
+#add departmentName to articlehead
+db.articlehead.update({}, {$set: {departmentName: ""}}, true, true, true);
+
+#add info and img link to pagedepartment
+db.pagedepartment.update({}, {$set: {info: "", img: ""}}, true, true, true);
+
+#add exam attach boolean field:
+db.Exams.update({}, {$set: {attach: false}}, true, true, true);
+
+#add examsanswer attach link string field:
+db.examanswers.update({}, {$set: {attach: ""}}, true, true, true);
+
+#presentations changes
+db.slides.update({}, {$set: {subjectId: 1, subjectName: "fizyka", lev: 1, department: "" }}, true, true, true)
+
+#add info member for question
+db.questions.update({}, {$set: {info: "" }}, true, true, true)
+
+#add info member for question
+db.examanswers.update({}, {$set: {info: "" }}, true, true, true)
+
+
+#change name of member subcjectName to subjectName
+
+var cursor = db.documents.find();
+while(cursor.hasNext()) {
+    var doc = cursor.next();   
+    var subName = doc.subcjectName;
+    print(doc._id + ": " + doc._id + " name: " + subName);  
+    db.documents.update({'_id' : doc._id}, {$set: {"subjectName": subName}}, true, true, true);  
+    db.documents.update({'_id' : doc._id}, {$unset: {"subcjectName": ""}}, true, true, true); 
+}
+
+#change courses with groups
+
+db.courses.update({}, {$set: {"groupsInfo": ""}}, true, true, true);  
+db.courses.update({}, {$unset: {"classInfo": ""}}, true, true, true); 
+db.courses.update({}, {$set: {"groupsList": []}}, true, true, true);  
+db.courses.update({}, {$unset: {"classList": []}}, true, true, true); 
+
+#change works with groups
+
+db.Works.update({}, {$set: {"groupName": ""}}, true, true, true);
+db.Works.update({}, {$unset: {"className": ""}}, true, true, true);
+db.Works.update({}, {$set: {"groupId": ""}}, true, true, true);
+db.Works.update({}, {$unset: {"classId": ""}}, true, true, true);
+
+#change Exams with groups
+
+db.Exams.update({}, {$set: {"groupName": ""}}, true, true, true);
+db.Exams.update({}, {$unset: {"className": ""}}, true, true, true);
+db.Exams.update({}, {$set: {"groupId": ""}}, true, true, true);
+db.Exams.update({}, {$unset: {"classId": ""}}, true, true, true);
+
+#change question add good answer
+
+db.questions.update({}, {$set: {"hint":""}}, true, true, true)
+
+#change after add groups
+
+db.courses.update({}, {$set: {"groupsInfo": ""}}, true, true, true);
+db.courses.update({}, {$set: {"groupsList": []}}, true, true, true);
+db.Works.update({}, {$set: {"groupId":""}}, true, true, true);
+db.Works.update({}, {$set: {"groupName":""}}, true, true, true);
+db.Exams.update({}, {$set: {"groupId":""}}, true, true, true);
+db.Exams.update({}, {$set: {"groupName":""}}, true, true, true);
+
+#create presentation and insert data from slides and slidesContent
+var cursor = db.slides.find();
+while(cursor.hasNext()){
+  var slide = cursor.next();
+  var cont = db.slidesContent.find({"_id":slide.slides}).next();
+  db.presentation.insert({
+	"authorId" : slide.authorId,
+	"subjectId" : slide.subjectId,
+	"subjectName" : slide.subjectName,
+	"lev" : slide.lev,
+	"department" : slide.department,
+	"title" : slide.title,
+	"descript" : slide.descript,
+	"slides" : cont.slides
+  })
+}
+
