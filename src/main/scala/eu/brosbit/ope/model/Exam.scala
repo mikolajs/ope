@@ -21,6 +21,6 @@ case class Exam(var _id: ObjectId, var authorId: Long, var description: String,
                 var subjectId: Long, var subjectName: String,
                 var groupId: String, var groupName: String, var quizzes: List[List[QuestElem]],
                 var keys: List[String], var start: Long, var end: Long, var multi: Boolean,
-                var attach: Boolean) extends MongoDocument[Exam] {
+                var attach: Boolean, var started: Boolean = false) extends MongoDocument[Exam] {
   def meta: Exam.type = Exam
 }

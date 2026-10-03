@@ -15,25 +15,25 @@ import Helpers._
 
 trait BaseLesson {
 
-  val user = User.currentUser.openOrThrowException("Niezalogowany nauczyciel")
-  val levList = List(("1", "podstawowy"), ("2", "średni"), ("3", "rozszerzony"))
-  val levMap = levList.toMap
+  val user: User = User.currentUser.openOrThrowException("Niezalogowany nauczyciel")
+  val levList: Seq[(String, String)] = List(("1", "podstawowy"), ("2", "średni"), ("3", "rozszerzony"))
+  val levMap: Map[String, String] = levList.toMap
 
-  var idPar = S.param("id").openOr("0")
-  var courseId = S.param("c").openOr("0")
+  var idPar: String = S.param("id").openOr("0")
+  var courseId: String = S.param("c").openOr("0")
   //parametr id jest _id lekcji gdy już była utworzona. Gdy mamy nową lekcję parametr ten jest id kursu
-  val lesson = if (idPar == "0") LessonCourse.create else LessonCourse.find(idPar).getOrElse(LessonCourse.create)
-  val notFoundLesson = (lesson.courseId.toString == "000000000000000000000000" || lesson.courseId.toString.length() < 20)
-  val courseOption = if (idPar == "0") Course.find(courseId)
+  val lesson: LessonCourse = if (idPar == "0") LessonCourse.create else LessonCourse.find(idPar).getOrElse(LessonCourse.create)
+  private val notFoundLesson = (lesson.courseId.toString == "000000000000000000000000" || lesson.courseId.toString.length() < 20)
+  val courseOption: Option[Course] = if (idPar == "0") Course.find(courseId)
   else {
-    if (notFoundLesson) None else Course.find(lesson.courseId.toString())
+    if (notFoundLesson) None else Course.find(lesson.courseId.toString)
   }
-  val subjectId = if (courseOption.isEmpty) 0L else courseOption.get.subjectId
-  val chapters = if (courseOption.isEmpty) Nil else courseOption.get.chapters
-  val chaptersList = chapters.map(ch => (ch, ch))
+  val subjectId: Long = if (courseOption.isEmpty) 0L else courseOption.get.subjectId
+  val chapters: Seq[String] = if (courseOption.isEmpty) Nil else courseOption.get.chapters
+  val chaptersList: Seq[(String, String)] = chapters.map(ch => (ch, ch))
 
 
-  def findChapterName(id: Int) = if (chapters.contains(id)) chapters(id) else "Brak nazwy"
+  def findChapterName(id: Int): String = if (chapters.contains(id.toString)) chapters(id) else "Brak nazwy"
 
   //println(">>>>>>>>>>>> lessonID + " + lesson._id.toString + " idPar = " + idPar + "  courseId = " + lesson.courseId.toString );
 }

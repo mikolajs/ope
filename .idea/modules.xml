@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ope/Programowanie.ope_edu_pl.iml" filepath="$PROJECT_DIR$/.idea/modules/ope/Programowanie.ope_edu_pl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ope/Programowanie.ope_edu_pl.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ope/Programowanie.ope_edu_pl.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ope/Programowanie.ope_edu_pl.ope_edu_pl-build.iml" filepath="$PROJECT_DIR$/.idea/modules/ope/Programowanie.ope_edu_pl.ope_edu_pl-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ope/Programowanie.ope_edu_pl.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ope/Programowanie.ope_edu_pl.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.iml" filepath="$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.ope_edu_pl-build.iml" filepath="$PROJECT_DIR$/.idea/modules/ope/ope_edu_pl.ope_edu_pl-build.iml" />

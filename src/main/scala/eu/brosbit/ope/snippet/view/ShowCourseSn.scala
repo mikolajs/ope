@@ -19,7 +19,10 @@ class ShowCourseSn extends BaseShowCourseSn {
     case Full(user) => user
     case _ => S.redirectTo("/login?r=/view/course/")
   }
-  private val groupsIds = Groups.findAll.filter(gr => gr.students.exists(s => s.id == user.id.get)).map("_" + _._id)
+  private val groupsIds = Groups.findAll.filter(gr => {
+    if(gr.blocked) S.redirectTo("/view/course/")
+    gr.students.exists(s => s.id == user.id.get)
+  }).map("_" + _._id)
 
   def show(): CssSel = {
     if (!canView) S.redirectTo("/view/courses/")

@@ -41,7 +41,10 @@
        </script>
     </head_merge>
     <div>
-        <div class="well"><h2>Twoje testy</h2></div>
+        <div class="well" data-lift="edu.ShowAllExamsSn.blockingGroups"><h2>Twoje testy</h2>
+            <p>Zablokowane grupy:<span id="blocked"></span></p>
+            <a href="/educontent/exams" class="btn btn-danger" >Odśwież blokowanie grup</a>
+        </div>
         <br/>
         <div class="row">
             <div class="col-lg-8">
@@ -52,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4"  >
+            <div class="col-lg-4"  data-lift="edu.ShowAllExamsSn.editSubject" >
                 <a href="/educontent/editexam/0">
                     <span class="btn btn-success" id="iconAddBook">
                         <span class="glyphicon glyphicon-plus"></span> Dodaj sprawdzian</span>

@@ -17,32 +17,32 @@ import Helpers._
 trait BaseResourceSn {
 
   protected val user: User = User.currentUser.openOrThrowException("Niezalogowany nauczyciel")
-  protected val subjectTeach = SubjectTeach.findAll(("authorId" -> user.id.get), ("prior" -> 1))
+  protected val subjectTeach: List[SubjectTeach] = SubjectTeach.findAll(("authorId" -> user.id.get), ("prior" -> 1))
   if (subjectTeach.isEmpty && S.uri.split("/").last != "options")
     S.redirectTo("/educontent/options")
-  protected val subjId = S.param("s").openOr(subjectTeach.head.id.toString)
-  protected val subjectNow = subjectTeach.find(s =>
-    s.id.toString() == subjId).getOrElse(subjectTeach.head)
-  //val levStr = S.param("l").openOr(subjectNow.lev.toString)
-  protected val subjectId = subjectNow.id
-  val levList = List(("1", "podstawowy"), ("2", "rozszerzony"), ("3", "konkursowy"))
-  protected val levMap = levList.toMap
+  protected val subjId: String = S.param("s").openOr(subjectTeach.head.id.toString)
+  protected val subjectNow: SubjectTeach = subjectTeach.find(s =>
+    s.id.toString == subjId).getOrElse(subjectTeach.head)
+  //val levStr = S.param(l").openOr(subjectNow.lev.toString)
+  protected val subjectId: Long = subjectNow.id
+  val levList: Seq[(String, String)] = List(("1", "podstawowy"), ("2", "rozszerzony"), ("3", "konkursowy"))
+  protected val levMap: Map[String, String] = levList.toMap
 
-  protected val departNr = tryo(S.param("d").openOr("0").toInt).openOr(0)
-  protected val departName = departNr match {
+  protected val departNr: Int = tryo(S.param("d").openOr("0").toInt).openOr(0)
+  protected val departName: String = departNr match {
     case -1 => ""
     case 0 => if (subjectNow.departments.isEmpty) "" else subjectNow.departments.head
     case nr: Int if (subjectNow.departments.length > nr) => subjectNow.departments(nr)
     case _ => if (subjectNow.departments.isEmpty) "" else subjectNow.departments.head
   }
 
-  val query =
+  val query: JObject =
     if (departNr < 0)
       ("authorId" -> user.id.get) ~ ("subjectId" -> subjectNow.id)
     else
       ("authorId" -> user.id.get) ~ ("subjectId" -> subjectNow.id) ~ ("department" -> departName)
 
-  def techerSubjects() = {
+  def techerSubjects(): CssSel = {
     val subj = subjectTeach.map(s => (s.id, s.name))
     "#subjectSelect" #> subj.map(s =>
       "option" #> <option value={s._1.toString}>
@@ -57,12 +57,12 @@ trait BaseResourceSn {
     ""
   }
 
-  def findSubjectId(name: String) = {
+  def findSubjectId(name: String): Long = {
     val matched = subjectTeach.filter(s => s.name == name)
     if (matched.isEmpty) subjectNow.id else matched.head.id
   }
 
-  def subjectChoice(basePath: String) = {
+  def subjectChoice(basePath: String): CssSel = {
     def redirect(str: String): JsCmd = {
       S.redirectTo(basePath + "?s=" + str)
     }
@@ -71,7 +71,7 @@ trait BaseResourceSn {
     "#subjectChoice" #> SHtml.ajaxSelect(subjects, Full(subjectNow.id.toString), (str) => redirect(str))
   }
 
-  def subjectAndDepartmentChoice(basePath: String) = {
+  def subjectAndDepartmentChoice(basePath: String): CssSel = {
     def redirectPath(sub: String, depNr: String): String = {
       basePath + "?s=" + sub + "&d=" + depNr
     }

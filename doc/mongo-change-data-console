@@ -205,3 +205,11 @@ while(cursor.hasNext()){
   })
 }
 
+!!!!! DODAĆ pola:
+#Exams.started:Boolean false NOWA WERSJA MONGO 8.0
+
+db.Exams.updateMany({}, {$set: {"started": false}}, true, true, true);
+
+# Groups.blocked:Boolean false
+
+db.Groups.updateMany({}, {$set: {"blocked": false}}, true, true, true);

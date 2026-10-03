@@ -58,7 +58,7 @@ class EditPresentationSn {
     })
     val levList = List(("1", "podstawowy"), ("2", "średni"), ("3", "rozszerzony"))
 
-    def saveData() {
+    def saveData(): Unit = {
       val userId = User.currentUser.openOrThrowException("NOT LOGGED USER").id.get
       if (slide.authorId == 0L || slide.authorId == userId) {
         //val contentHtml = Unparsed(contentString)
@@ -75,7 +75,7 @@ class EditPresentationSn {
       S.redirectTo("/educontent/editpresentation/" + slide._id.toString) //!important must refresh page
     }
 
-    def deleteData() {
+    def deleteData(): Unit = {
       val userId = User.currentUser.openOrThrowException("NOT LOGGED USER").id.get
       if (id != "0" && slide.authorId == userId){
           slide.delete
@@ -83,7 +83,7 @@ class EditPresentationSn {
       S.redirectTo("/educontent/presentations")
     }
 
-    def cancelAction() {
+    def cancelAction(): Unit = {
       S.redirectTo("/educontent/presentations")
     }
 
@@ -101,5 +101,9 @@ class EditPresentationSn {
 
   def show(): CssSel = {
     "a [href]" #> ("/showslide/" + id)
+  }
+
+  def setSubjectParam():CssSel = {
+    "a [href]" #> s"/educontent/presentations?s=$subId&d=${departNr}"
   }
 }

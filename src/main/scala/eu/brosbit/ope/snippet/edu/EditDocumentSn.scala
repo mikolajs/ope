@@ -10,13 +10,12 @@ import Helpers._
 
 class EditDocumentSn extends BaseResourceSn {
 
-  val userId = user.id.get
-  val id = S.param("id").openOr("0")
-  var document = if (id != "0") Document.find(id).getOrElse(Document.create) else Document.create
-  val isOwner =
-    document.authorId == 0L || document.authorId == userId
+  val userId: Long = user.id.get
+  val id: String = S.param("id").openOr("0")
+  var document: Document = if (id != "0") Document.find(id).getOrElse(Document.create) else Document.create
+  val isOwner: Boolean = document.authorId == 0L || document.authorId == userId
 
-  def editData() = {
+  def editData(): CssSel = {
     if (!isOwner) S.redirectTo("/educontent/documents")
     var docID = id
     var title = document.title
@@ -27,9 +26,9 @@ class EditDocumentSn extends BaseResourceSn {
     else document.department
     var docContent = document.content
 
-    def save() {
+    def save(): Unit = {
       //println("-------------save------------title-----------------")
-      if (isOwner && !title.trim.isEmpty) {
+      if (isOwner && title.trim.nonEmpty) {
         document.title = title
         document.descript = descript
         if (document.subjectId == 0L) document.subjectId = subjectNow.id
@@ -69,8 +68,7 @@ class EditDocumentSn extends BaseResourceSn {
         ++ Text(" Usuń "), delete, "title" -> "Usuń")
   }
 
-  private def findDepart(): Unit = {
-
+  def setSubjectParam():CssSel = {
+    "a [href]" #> s"/educontent/documents?s=${subjectId.toString}&d=${departNr}"
   }
-
 }

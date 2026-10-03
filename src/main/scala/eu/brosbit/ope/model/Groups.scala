@@ -17,6 +17,6 @@ object Groups extends MongoDocumentMeta[Groups] {
 }
 
 case class Groups(_id: ObjectId, var authorId: Long, var name: String, var description: String,
-                  var students: List[StudentInfo]) extends MongoDocument[Groups] {
+                  var students: List[StudentInfo], var blocked:Boolean = false) extends MongoDocument[Groups] {
   def meta = Groups
 }

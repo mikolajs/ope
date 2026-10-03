@@ -16,7 +16,9 @@ class CheckExamSn {
   private val ansId = S.param("id").openOr("")
   if (ansId.isEmpty) S.redirectTo("/educontent/exams")
   private val ansEx = ExamAnswer.find(ansId).getOrElse(ExamAnswer.create)
-  private val exam = Exam.find(ansEx.exam.toString).getOrElse(Exam.create)
+  private val exam = Exam.find(ansEx.exam.toString).getOrElse(S.redirectTo("/educontent/exams"))
+  protected val user: User = User.currentUser.openOrThrowException("Niezalogowany nauczyciel")
+  if(exam.authorId != user.id.get) S.redirectTo("/educontent/exams")
   private val group = getGroupInt
   //println("GROUP CHeck exam: " + group)
   //  private val quiz = Quiz.find(exam.quizzes(group)).getOrElse(Quiz.create)
@@ -105,7 +107,7 @@ class CheckExamSn {
           <span class="quizNr">
             {nr.toString}
           </span>
-          Zadanie
+          Zadanie [nr zadania: <span>{question.nr}</span>]
           <span class="badge" title="Punkty">
             {pktA.toString}
             pkt.</span>

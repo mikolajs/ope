@@ -10,20 +10,20 @@ import java.util.Date
 
 class ShowExamsSn extends BaseResourceSn {
 
-  val exId = S.param("id").openOr("")
+  private val exId = S.param("id").openOr("")
   if (exId.isEmpty) S.redirectTo("/educontent/exams")
-  val exam = Exam.find(exId).getOrElse(Exam.create)
-  val quizes = Quiz.findAll("_id" -> ("$in" -> exam.quizzes.map(q => q.toString)))
-  var pointsMaxList = quizes.map(qz => qz.questions.map(q => q.p).sum)
+  val exam: Exam = Exam.find(exId).getOrElse(Exam.create)
+  private val quizzes = Quiz.findAll("_id" -> ("$in" -> exam.quizzes.map(q => q.toString)))
+  private var pointsMaxList: List[Int] = quizzes.map(qz => qz.questions.map(q => q.p).sum)
   if (pointsMaxList.length != exam.quizzes.length) pointsMaxList = (-5 to (exam.quizzes.length - 5)).toList
 
-  def showInfo() = {
+  def showInfo(): CssSel = {
     "span *" #> exam.description &
       "small *" #> ("od " + Formater.formatTime(new Date(exam.start)) +
         " do " + Formater.formatTime(new Date(exam.end)))
   }
 
-  def showExamAnswers() = {
+  def showExamAnswers(): CssSel = {
     val exAns = ExamAnswer.findAll("exam" -> exam._id.toString)
 
     "tr" #> exAns.sortWith(_.authorName < _.authorName).map(ea => {
@@ -38,5 +38,8 @@ class ShowExamsSn extends BaseResourceSn {
           <span class="glyphicon glyphicon-check"></span>
           Sprawdź</a>
     })
+  }
+  def editSubject():CssSel = {
+    "a [href]" #> s"/educontent/editexam/0?s=${subjectId}"
   }
 }

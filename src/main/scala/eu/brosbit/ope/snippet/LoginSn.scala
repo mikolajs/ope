@@ -57,6 +57,33 @@ class LoginSn {
     }
   }
 
+  def mkLogIn2(): CssSel = {
+    var login = ""
+    var pass = ""
+    var message = ""
+    def mkLog():Unit  = {
+      User.findAll(By(User.email, login.trim)) match {
+        case user :: other =>
+            if (user.password.match_?(pass.trim)) {
+              User.logUserIn(user)
+              S.redirectTo(redirectUrl)
+            } else message = " Błędne hasło "
+
+        case _ => message = " Nie znaleziono adresu email. "
+      }
+    }
+    userBox match {
+      case Full(user) => {
+        "form" #> <span></span>
+      }
+      case _ => {
+        "#login" #> SHtml.text(login, login = _) &
+          "#password" #> SHtml.password(pass, pass = _) &
+          "#mkLog" #> SHtml.submit("Zaloguj", mkLog)
+      }
+    }
+  }
+
   def mkLogIn(): CssSel = {
     var login = ""
     var pass = ""

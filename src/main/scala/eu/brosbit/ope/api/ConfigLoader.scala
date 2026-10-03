@@ -1,7 +1,7 @@
 package eu.brosbit.ope.api
 
 import java.io.File
-import scala.io.Source
+import scala.io.{BufferedSource, Source}
 import scala.util.Try
 
 object ConfigLoader {
@@ -14,16 +14,15 @@ object ConfigLoader {
   var emailPort = ""
   var emailSMTP = ""
   var judgeDir = ""
-  println("LOAD OPE")
-  val f = new File("/etc/osp/config.cfg")
-
-  val lines = Source.fromFile(f).getLines().toList
-
-  def init: Unit = lines.map(line => {
+  //println("LOAD OPE")
+  val f = new File("/etc/ope/config.cfg")
+  private val source: BufferedSource = Source.fromFile(f)
+  private val lines = source.getLines().toList
+  source.close()
+  def init(): Unit = lines.foreach(line => {
     //println(line)
     val opt = line.split('=').map(x => x.trim)
-    if (opt.length == 2) {
-      opt.head match {
+    if (opt.length == 2) opt.head match {
         case "sqlpassword" => sqlPassw = opt.last
         case "sqldatabase" => sqlDB = opt.last
         case "mongodatabase" => mongoDB = opt.last
@@ -35,8 +34,8 @@ object ConfigLoader {
         case "judgeDir" => judgeDir = opt.last
         case _ =>
       }
-    }
-    //println(printInfo)
+    //println(printInfo
+
   })
 
   def printInfo = "sqlPass: %s, sqlDB: %s, mongoDB: %s emailSMTP %s, emailPort %s, emailadress %s, emailPass %s"

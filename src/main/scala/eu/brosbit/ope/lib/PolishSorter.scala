@@ -9,7 +9,7 @@ object PolishSorter {
     convertStringForSort(n1) < convertStringForSort(n2)
 
   private def createMapForSort() = {
-    val alphabet = "aąbcćdeęfghijklłmnńoópqrsśtuvxwzżź"
+    val alphabet = "aąbcćdeęfghijklłmnńoópqrsśtuvwxyzżź"
     (0 until alphabet.length()).map(i =>
       (alphabet(i) -> (i + 65).toChar)
     ).toMap
