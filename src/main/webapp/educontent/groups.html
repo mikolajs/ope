@@ -26,12 +26,19 @@
     <div data-lift="edu.GroupsSn.showGroups" class="col-lg-12">
         <label>Twoje grupy:</label>
             <table id="datatable">
-                <thead><tr><th>Skrót grupy</th><th>Opis grupy</th><th>Ilość osób w grupie</th><th>Edytuj</th></tr></thead>
+                <thead><tr><th>Skrót grupy</th><th>Opis grupy</th><th>Ilość osób w grupie</th><th>Edytuj</th><th>Blokada</th></tr></thead>
                 <tbody><tr id="tbody"></tr></tbody>
-                <tfoot><tr><th>Skrót grupy</th><th>Opis grupy</th><th>Ilość osób w grupie</th><th>Edytuj</th></tr></tfoot>
+                <tfoot><tr><th>Skrót grupy</th><th>Opis grupy</th><th>Ilość osób w grupie</th><th>Edytuj</th><th>Blokada</th></tr></tfoot>
             </table>
     </div>
   </div>
+    <div data-lift="edu.GroupsSn.blocking">
+        <form style="display: none" role="form">
+            <input id="ajaxId" type="text" >
+            <input id="ajaxBlock" type="checkbox">
+            <input type="submit" value="_" id="ajaxSubmit">
+        </form>
+    </div>
 
     <br /><br />
 </div>

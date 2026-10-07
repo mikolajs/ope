@@ -38,7 +38,7 @@ object ConfigLoader {
 
   })
 
-  def printInfo = "sqlPass: %s, sqlDB: %s, mongoDB: %s emailSMTP %s, emailPort %s, emailadress %s, emailPass %s"
+  def printInfo: String = "sqlPass: %s, sqlDB: %s, mongoDB: %s emailSMTP %s, emailPort %s, emailadress %s, emailPass %s"
     .format(sqlPassw, sqlDB, mongoDB, emailSMTP, emailPort, emailAddr, emailPassw)
 }
 

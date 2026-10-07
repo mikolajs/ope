@@ -14,6 +14,10 @@ class EditDocumentSn extends BaseResourceSn {
   val id: String = S.param("id").openOr("0")
   var document: Document = if (id != "0") Document.find(id).getOrElse(Document.create) else Document.create
   val isOwner: Boolean = document.authorId == 0L || document.authorId == userId
+  if(document.subjectId != 0L) {
+    changeSubject(document.subjectId)
+    changeDepartment(document.department)
+  }
 
   def editData(): CssSel = {
     if (!isOwner) S.redirectTo("/educontent/documents")

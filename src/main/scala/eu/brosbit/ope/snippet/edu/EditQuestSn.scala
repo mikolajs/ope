@@ -140,7 +140,7 @@ class EditQuestSn extends BaseResourceSn {
     val departments = subjectNow.departments.map(d => (d, d))
 
     val form = "#idQuest" #> SHtml.text(id, id = _) &
-      "#nrQuest" #> SHtml.text(nr.toString, x => nr = x.toInt) &
+      "#nrQuest" #> SHtml.text(nr.toString.trim, x => nr = x.trim.toInt) &
       "#infoQuest" #> SHtml.text(info, info = _) &
       "#questionQuest" #> SHtml.textarea(question, x => question = x.trim) &
       "#answerQuest" #> SHtml.text(answer, x => answer = x.trim) &

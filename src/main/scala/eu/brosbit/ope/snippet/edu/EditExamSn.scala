@@ -11,10 +11,13 @@ import Helpers._
 import json.JsonDSL._
 import org.bson.types.ObjectId
 import eu.brosbit.ope.lib.{ExamFileOdt, Formater}
+import net.liftweb.http.js.JsCmd
+import net.liftweb.http.js.JsCmds.{Run, SetValById}
 import net.liftweb.json.JsonAST.RenderSettings.compact
 import net.liftweb.json.JsonAST.render
 
 import java.util.Date
+import scala.xml.NodeSeq
 
 class EditExamSn extends BaseResourceSn {
 
@@ -22,6 +25,7 @@ class EditExamSn extends BaseResourceSn {
   private val examCopyId = S.param("c").openOr("0")
   private val userId = user.id.get
   private val exam = if (examCopyId == "0") Exam.find(examId).getOrElse(Exam.create) else mkExamCopy()
+  if(exam.subjectId != 0L) changeSubject(exam.subjectId)
   private val groups = Groups.findAll.filter(gr => gr.authorId == userId).map(gr => ("_" + gr._id.toString, gr.name))
 
   def editExam(): CssSel = {
@@ -46,7 +50,7 @@ class EditExamSn extends BaseResourceSn {
       exam.quizzes = quizzes.split('|').map(_.trim).filter(_.nonEmpty).map(groupRows =>
         groupRows.split(';').map(_.trim).filter(_.nonEmpty).map(q => {
           val elem = q.split(',')
-          if (elem.size == 2) QuestElem(new ObjectId(elem(0)), tryo(elem(1).toInt).getOrElse(1))
+          if (elem.length == 2) QuestElem(new ObjectId(elem(0)), tryo(elem(1).toInt).getOrElse(1))
           else QuestElem(new ObjectId(""), -1)
         }).filter(_.p > 0).toList).toList
       exam.keys = keys.split(';').toList
@@ -84,7 +88,10 @@ class EditExamSn extends BaseResourceSn {
       "#deleteExam" #> SHtml.submit("Usuń", delete)
   }
 
-  def showInfo: CssSel = "#subject *" #> subjectNow.name
+  def showInfo: CssSel = {
+    "#subject *" #> subjectNow.name &
+      "a [href]" #> ("/educontent/exams?s=" + subjectNow.id.toString)
+  }
 
   private def questionsListJson(): String = {
     val questsElementsList = exam.quizzes
@@ -108,31 +115,7 @@ class EditExamSn extends BaseResourceSn {
     "#buttonDoc" #> SHtml.submit("Utwórz", create) &
     "#docLink [href]" #> fullPath
   }
-  /*
-    def showAllQuizzes() = {
 
-      "li" #> Quiz.findAll(("authorId" -> user.id.get) ~ ("subjectId" -> subjectNow.id)).map(quiz => {
-        "li [id]" #> quiz._id.toString &
-        ".titleQuiz *" #> quiz.title
-      })
-    }
-
-   def showExamQuizzes() = {
-
-     "li" #> Quiz.findAll(("authorId" -> user.id.get) ~ ("_id" -> ("$in" -> exam.quizzes.map(_.toString)))).map(quiz => {
-        "li [id]" #> quiz._id.toString &
-        ".titleQuiz * " #> quiz.title
-      })
-
-   }
-   */
-
-
-  //  private def mkQuestBoxWithPoints(questElems:List[QuestElem]) = {
-  //    val qes = questElems.map(qe => qe.q.toString)
-  //    val quests = QuizQuestion.findAll(( "_id" -> ("$in" -> qes )))
-  //    questElems.map(qe => mkBox(quests.find(q => q._id.toString == qe.q.toString).getOrElse(QuizQuestion.create), qe.p))
-  //  }
 
   private def mkJsonStringQuest(quest: QuizQuestion, p: Int): String = {
     import net.liftweb.json._
@@ -161,6 +144,44 @@ class EditExamSn extends BaseResourceSn {
     e.subjectName = exOrigin.subjectName
     e
   }
+
+  def choiceDepart(): CssSel = {
+    val departs = subjectNow.departments.map(d => (d, d))
+    var depart = if (subjectNow.departments.isEmpty) "" else subjectNow.departments.head
+
+    //    def getData():JsCmd = {
+    //      println("======= getData depart: " + depart )
+    //      val data = mkQuestBox(QuizQuestion.findAll(
+    //        ("authorId" -> userId) ~ ("subjectId" -> subjectId) ~ ("department" -> depart)
+    //      ))
+    //       SetHtml("allquestions", data) & Run("editQuiz.removeDuplicate();")
+    //    }
+
+    def getDataNew = {
+      val lookingQuest = ("authorId" -> userId) ~ ("subjectId" -> subjectId) ~ ("department" -> depart)
+
+      //println(s"exam: ${exam.description} examId: $examId"+ exam.description)
+      val usedQuest = exam.quizzes.flatten.map(qe => qe.q.toString)
+      //println(usedQuest.mkString(","))
+      val str = QuizQuestion.findAll(lookingQuest).filter(qq => !usedQuest.contains(qq._id.toString))
+        .map(q => "[ '" + q._id.toString + "',  '" + Formater.mkLongExerciseNumber(q.nr) + "', '" +
+          q.question + "',  '" + q.info + "',  '" +
+          q.lev + "',  '" + q.dificult + "']")
+        .mkString(",")
+      "[" + str + "]"
+    }
+
+    def refreshData(): JsCmd = {
+
+      SetValById("jsonForDataTable", getDataNew) & Run("refreshTab();")
+    }
+
+    val form = "#departments" #> SHtml.select(departs, Full(depart), depart = _) &
+      "#getDeparts" #> SHtml.ajaxSubmit("Wybierz", refreshData) andThen SHtml.makeFormsAjax
+
+    "form" #> ((in: NodeSeq) => form(in))
+  }
+
 
   //  private def mkBox(quest: QuizQuestion, p:Int) = {
   //    <li id={quest._id.toString}>

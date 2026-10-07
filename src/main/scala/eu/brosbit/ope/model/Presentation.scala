@@ -1,8 +1,10 @@
 package eu.brosbit.ope.model
 
 import _root_.net.liftweb.mongodb._
+import net.liftweb.json.Formats
 import net.liftweb.util.ConnectionIdentifier
 import org.bson.types.ObjectId
+
 import scala.util.parsing.json.JSONFormat._
 
 object Presentation extends MongoDocumentMeta[Presentation] {
@@ -10,7 +12,7 @@ object Presentation extends MongoDocumentMeta[Presentation] {
 
   override def connectionIdentifier: ConnectionIdentifier = bootstrap.liftweb.MongoConnectionIdentifier
 
-  override def formats = super.formats + new ObjectIdSerializer + new DateSerializer
+  override def formats: Formats = super.formats + new ObjectIdSerializer + new DateSerializer
 
   def create = new Presentation(ObjectId.get, 0L, 0L, "", 0, "", "", "", "")
 }
@@ -19,9 +21,9 @@ case class Presentation(var _id: ObjectId, var authorId: Long, var subjectId: Lo
                         var subjectName: String, var lev: Int, var department: String,
                         var title: String, var descript: String, var slides: String)
   extends MongoDocument[Presentation] {
-  def meta = Presentation
+  def meta: Presentation.type = Presentation
 
-  def strJson =
+  def strJson: String =
     s"""{"_id":"${_id.toString}", "title":"${quoteString(title)}", "descript":"${quoteString(descript)}", "subjectName":"${quoteString(subjectName)}",
        |"department":"${quoteString(department)}", "slides":"${slides.toString}", "lev":"$lev"}
        |""".stripMargin

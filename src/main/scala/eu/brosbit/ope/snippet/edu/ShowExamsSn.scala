@@ -4,7 +4,7 @@ import _root_.net.liftweb.util._
 import Helpers._
 import net.liftweb.json.JsonDSL._
 import net.liftweb.http.S
-import eu.brosbit.ope.model.{Quiz, ExamAnswer, Exam}
+import eu.brosbit.ope.model.{ExamAnswer, Exam}
 import eu.brosbit.ope.lib.Formater
 import java.util.Date
 
@@ -13,9 +13,7 @@ class ShowExamsSn extends BaseResourceSn {
   private val exId = S.param("id").openOr("")
   if (exId.isEmpty) S.redirectTo("/educontent/exams")
   val exam: Exam = Exam.find(exId).getOrElse(Exam.create)
-  private val quizzes = Quiz.findAll("_id" -> ("$in" -> exam.quizzes.map(q => q.toString)))
-  private var pointsMaxList: List[Int] = quizzes.map(qz => qz.questions.map(q => q.p).sum)
-  if (pointsMaxList.length != exam.quizzes.length) pointsMaxList = (-5 to (exam.quizzes.length - 5)).toList
+
 
   def showInfo(): CssSel = {
     "span *" #> exam.description &

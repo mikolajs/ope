@@ -159,11 +159,11 @@
     	
     	$tr.children('td').each(function(index){
     		let $td = $(this);
-    		let array = new Array();
+    		let array = [];
     		let $ul;
     		switch (index) {
     		case 0:
-    		    $("#nrQuest").val($td.text());
+    		    $("#nrQuest").val($td.text().trim());
     		    break;
     		case 1:
                 CKEDITOR.instances.questionQuest.setData($td.html().toString());

@@ -21,26 +21,36 @@ trait BaseResourceSn {
   if (subjectTeach.isEmpty && S.uri.split("/").last != "options")
     S.redirectTo("/educontent/options")
   protected val subjId: String = S.param("s").openOr(subjectTeach.head.id.toString)
-  protected val subjectNow: SubjectTeach = subjectTeach.find(s =>
+  protected var subjectNow: SubjectTeach = subjectTeach.find(s =>
     s.id.toString == subjId).getOrElse(subjectTeach.head)
   //val levStr = S.param(l").openOr(subjectNow.lev.toString)
-  protected val subjectId: Long = subjectNow.id
+  protected var subjectId: Long = subjectNow.id
   val levList: Seq[(String, String)] = List(("1", "podstawowy"), ("2", "rozszerzony"), ("3", "konkursowy"))
   protected val levMap: Map[String, String] = levList.toMap
 
-  protected val departNr: Int = tryo(S.param("d").openOr("0").toInt).openOr(0)
-  protected val departName: String = departNr match {
-    case -1 => ""
-    case 0 => if (subjectNow.departments.isEmpty) "" else subjectNow.departments.head
-    case nr: Int if (subjectNow.departments.length > nr) => subjectNow.departments(nr)
-    case _ => if (subjectNow.departments.isEmpty) "" else subjectNow.departments.head
-  }
+  protected var departNr: Int = tryo(S.param("d").openOr("0").toInt).openOr(0)
+  protected var departName: String = getDepartName(departNr)
 
   val query: JObject =
     if (departNr < 0)
       ("authorId" -> user.id.get) ~ ("subjectId" -> subjectNow.id)
     else
       ("authorId" -> user.id.get) ~ ("subjectId" -> subjectNow.id) ~ ("department" -> departName)
+
+  protected def changeSubject(subID:Long):Unit = {
+      subjectNow = subjectTeach.find(s => s.id == subID).getOrElse(subjectTeach.head)
+      subjectId = subjectNow.id
+  }
+  protected def changeDepartment(depName:String):Unit = {
+    departNr = subjectNow.departments.indexOf(depName)
+    departName = depName
+  }
+  private def getDepartName(depID:Int):String = depID match {
+    case -2 => ""
+    case -1 => if (subjectNow.departments.isEmpty) "" else subjectNow.departments.head
+    case nr: Int if (subjectNow.departments.length > nr) => subjectNow.departments(nr)
+    case _ => if (subjectNow.departments.isEmpty) "" else subjectNow.departments.head
+  }
 
   def techerSubjects(): CssSel = {
     val subj = subjectTeach.map(s => (s.id, s.name))

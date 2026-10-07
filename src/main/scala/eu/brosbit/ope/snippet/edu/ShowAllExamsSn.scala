@@ -9,7 +9,7 @@ import net.liftweb.util.CssSel
 import java.util.Date
 
 class ShowAllExamsSn  extends  BaseResourceSn {
-  mkBlocking()
+  //mkBlocking()
 
   def subjectChoice(): CssSel = super.subjectChoice("/educontent/exams")
 
@@ -38,7 +38,7 @@ class ShowAllExamsSn  extends  BaseResourceSn {
     })
   }
 
-  def blockingGroups() : CssSel = {
+  def blockingGroups(): CssSel = {
     "#blocked *" #> Groups.findAll("authorId" -> user.id.get).filter(gr => gr.blocked).map(gr => gr.name).mkString(" ")
   }
 
@@ -62,7 +62,8 @@ class ShowAllExamsSn  extends  BaseResourceSn {
     })
   }
   def editSubject():CssSel = {
-    "a [href]" #> s"/educontent/editexam/-1?s=${subjectId}"
+    "a [href]" #> s"/educontent/editexam/0?s=${subjectId}"
   }
+
 
 }

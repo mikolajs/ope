@@ -220,6 +220,9 @@ class EditExam {
         let htmlLi = this._mkQuestItem(id, info, quest, nr, depart, lev, 1);
        let groupId = '#group'+String.fromCharCode(this.currentGroup + 64);
          $(groupId).children('ul.dropselected').append(htmlLi);
+         //console.log(this.deletedQuestions[this.deletedQuestions.length-1]);
+         const r = this.table.fnGetPosition($row.get(0));
+         this.table.fnDeleteRow(r);
     }
 
     _mkQuestItem(id, info, quest, nr, depart, lev, p){
@@ -237,13 +240,28 @@ class EditExam {
     }
 
     removeLi(elem) {
-      $(elem).parent().parent().remove();
+        let li = $(elem).parent().parent();
+        let ID = li.attr('id');
+        let info = li.children(".infoText").text().substring(1).slice(0, -1);
+        let quest = li.children(".question").children('p').text();
+        let qInfo = li.children('.questInfo');
+        let nr = qInfo.children(".nr").text();
+        let lev = qInfo.children('.level').text();
+        let rowIndex = this.table.fnAddData([nr, quest, info, lev]);
+        let row = this.table.fnGetNodes(rowIndex);
+        $(row).attr('id', ID);
+        console.log('remove item '+ID);
+        let self = this;
+        $(row).click(function() {
+            self.createNewItem(this, self);
+        });
+        li.remove();
     }
 
     _checkExistsId(id){
       var ids = this._getQuizArrayId();
       for(let i in ids){
-        if(ids[i] == id) return true;
+        if(ids[i] === id) return true;
       }
       return false;
     }
@@ -289,15 +307,14 @@ class EditExam {
   }
 
   _insertKeysOnStart() {
-    var array = $("#keysList").val().split(";");
-    var lastLetter = "A";
-    var code = "";
-    var html = "";
-    var $keysDiv = $('#keysPanel').children('div.panel-body');
-    $keysDiv.empty();
+      const array = $("#keysList").val().split(";");
+      let lastLetter = "A";
+      let code = "";
+      const $keysDiv = $('#keysPanel').children('div.panel-body');
+      $keysDiv.empty();
     for (let i in array) {
       code = array[i];
-      if (lastLetter != code.charAt(0)) {
+      if (lastLetter !== code.charAt(0)) {
         lastLetter = code.charAt(0);
         $keysDiv.append('<hr />');
       }
@@ -308,17 +325,17 @@ class EditExam {
   ///// TODO: load questions to groups and show it from json
   _insertQuestionsOnStart(){
     let strQuest = $('#questsJson').val();
-    console.log(strQuest);
+    //console.log(strQuest);
     let jsonQuest = JSON.parse(strQuest+ '}'); //Poprawić w LIFT }
     for(let group of jsonQuest.groups){
-      console.log(group.gr);
-      if(group.gr != 'A'){
+      //console.log(group.gr);
+      if(group.gr !== 'A'){
         this.addNewGroup();
       }
       let grHTML = $('#group' + group.gr);
       for(let quest of group.q){
         let questItem = this._mkQuestItem(quest.id, quest.info, quest.q, quest.nr, quest.depart, quest.lev, quest.p);
-        console.log(questItem);
+        //console.log(quest.id + ': len ' + questItem.length);
         grHTML.children('ul').append(questItem);
       }
     }

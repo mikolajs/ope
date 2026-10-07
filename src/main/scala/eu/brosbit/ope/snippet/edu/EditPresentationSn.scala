@@ -9,23 +9,15 @@ import eu.brosbit.ope.model._
 import json.JsonDSL._
 import Helpers._
 
-class EditPresentationSn {
+class EditPresentationSn extends BaseResourceSn {
 
-  private val user = User.currentUser.openOrThrowException("Niezalogowany nauczyciel")
+  //private val user = User.currentUser.openOrThrowException("Niezalogowany nauczyciel")
   private val id = S.param("id").openOr("0")
-  private val subId = S.param("s").openOr("0")
+  //private val subId = S.param("s").openOr("0")
   private val slide = if (id == "0") Presentation.create else Presentation.find(id).getOrElse(Presentation.create)
-  private val subIdLong = if (slide.subjectId == 0L) subId.toLong else slide.subjectId
-  private val subjectNow = SubjectTeach.findAll(("id" -> subIdLong) ~ ("authorId" -> user.id.get)) match {
-    case sub :: _ => sub
-    case _ => S.redirectTo("/educontent/presentations")
-  }
-  private val departNr = tryo(S.param("d").openOr("0").toInt).getOrElse(0)
-  private val departName = departNr match {
-    case -1 => ""
-    case 0 => if(subjectNow.departments.isEmpty) "" else subjectNow.departments.head
-    case nr:Int if subjectNow.departments.length > nr  =>   subjectNow.departments(nr)
-    case _ => if(subjectNow.departments.isEmpty) "" else subjectNow.departments.head
+  if (slide.subjectId != 0L) {
+    changeSubject(slide.subjectId)
+    changeDepartment(slide.department)
   }
 
 
@@ -104,6 +96,6 @@ class EditPresentationSn {
   }
 
   def setSubjectParam():CssSel = {
-    "a [href]" #> s"/educontent/presentations?s=$subId&d=${departNr}"
+    "a [href]" #> s"/educontent/presentations?s=${subjectNow.id}&d=$departNr"
   }
 }
