@@ -4,8 +4,9 @@ import _root_.net.liftweb.util._
 import Helpers._
 import net.liftweb.json.JsonDSL._
 import net.liftweb.http.S
-import eu.brosbit.ope.model.{ExamAnswer, Exam}
-import eu.brosbit.ope.lib.Formater
+import eu.brosbit.ope.model.{Exam, ExamAnswer}
+import eu.brosbit.ope.lib.{Formater, PolishSorter}
+
 import java.util.Date
 
 class ShowExamsSn extends BaseResourceSn {
@@ -17,14 +18,15 @@ class ShowExamsSn extends BaseResourceSn {
 
   def showInfo(): CssSel = {
     "span *" #> exam.description &
-      "small *" #> ("od " + Formater.formatTime(new Date(exam.start)) +
-        " do " + Formater.formatTime(new Date(exam.end)))
+      "small *" #> s" od ${Formater.formatTime(new Date(exam.start))} do ${Formater.formatTime(new Date(exam.end))}" &
+    "a [href]" #> s"/educontent/editexam/0?s=${subjectId}"
   }
 
   def showExamAnswers(): CssSel = {
     val exAns = ExamAnswer.findAll("exam" -> exam._id.toString)
 
-    "tr" #> exAns.sortWith(_.authorName < _.authorName).map(ea => {
+    "tr" #> exAns.sortWith((ea1, ea2) => PolishSorter.polishSort(ea1.authorName, ea2.authorName))
+      .map(ea => {
       val gain = if (ea.answers.nonEmpty) ea.answers.map(_.p).sum else 0
       val percent = if (ea.max == 0) 0.0F else ((100.0F * gain.toFloat) / ea.max.toFloat)
       ".col1 *" #> ea.authorName &

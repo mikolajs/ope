@@ -13,12 +13,12 @@ class ShowCourseSn extends BaseShowCourseSn {
 
   override val basePath = "/educontent/course/"
 
-  val user = User.currentUser match {
+  val user: User = User.currentUser match {
     case Full(user) => user
     case _ => S.redirectTo("/login")
   }
 
-  def show() = {
+  def show(): CssSel = {
     if (course.authorId != user.id.get) S.redirectTo("/educontent/index")
 
     if (course.title != "") {
@@ -36,22 +36,22 @@ class ShowCourseSn extends BaseShowCourseSn {
   }
 
 
-  def sortedChapters() = {
+  def sortedChapters(): CssSel = {
     "li" #> course.chapters.map(ch => <li class="list-group-item">
       {ch}
     </li>)
   }
 
-  def sortChapters() = {
+  def sortChapters(): CssSel = {
     var sorted = ""
 
-    def delete() {
+    def delete(): Unit = {
       val allChapters = lessons.map(l => l.chapter).distinct
       course.chapters = course.chapters.filter(ch => allChapters.exists(all => all == ch))
       course.save
     }
 
-    def save() {
+    def save(): Unit = {
       //println("SORTED: " + sorted );
       val chaps = sorted.split("\\|\\|").map(s => s.trim).filter(s => s.length > 2).toList
       //println("[AppInfo:::: sort " + chaps.length + " : " + chaps.mkString("||"))
@@ -65,10 +65,5 @@ class ShowCourseSn extends BaseShowCourseSn {
       "#saveSort" #> SHtml.submit("Zapisz", save) &
       "#deleteNotUsed" #> SHtml.submit("Czyść puste", delete)
   }
-
-  def slideData = {
-
-  }
-
 
 }

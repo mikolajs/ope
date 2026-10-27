@@ -1,6 +1,6 @@
 package eu.brosbit.ope.snippet
 
-import scala.xml.{Text,  Unparsed}
+import scala.xml.{Elem, Node, Text, Unparsed}
 import _root_.net.liftweb._
 import http.S
 import common._
@@ -27,9 +27,9 @@ class BaseShowCourseSn  {
     case _ => if (!lessons.isEmpty) lessons.head else LessonCourse.create
   }
 
-  protected def findChapterName(id: Int) = if (course.chapters.contains(id)) course.chapters(id) else "Brak nawy!"
+  protected def findChapterName(id: Int): String = if (course.chapters.contains(id)) course.chapters(id) else "Brak nawy!"
 
-  protected def showAsDocument(lesson: LessonCourse, admin: Boolean) = {
+  protected def showAsDocument(lesson: LessonCourse, admin: Boolean): CssSel = {
     val infoError = "section" #> <section>
       <h1>Błąd - nie znaleziono materiału</h1>
     </section>
@@ -176,7 +176,7 @@ class BaseShowCourseSn  {
   }
 
   protected def mkQuestHTML(questType: Char, question: String, nr: Int, difficult: Int,
-                            correct: String, answers: scala.xml.NodeSeq, hint: String) = {
+                            correct: String, answers: scala.xml.NodeSeq, hint: String): Elem = {
     val star = difficult match {
       case 2 => <span class="glyphicon glyphicon-star-empty" title="Trudne"></span>
       case 3 => <span class="glyphicon glyphicon-star" title="Bardzo trudne"></span>
@@ -207,18 +207,20 @@ class BaseShowCourseSn  {
   }
   //protected def insert
 
-  protected def createLessonList() = {
-    var chapterFiltred: List[LessonCourse] = lessons
-
+  protected def createLessonList: Seq[Node] = {
+    var chapterFiltered: List[LessonCourse] = lessons
+    var NR = 0
     println("[AppINFO:::::: ]" + lessons.length.toString)
-    val toReturn = course.chapters.map(ch => {
-      val (lessonChapter, restChap) = chapterFiltred.partition(l => l.chapter == ch)
-      chapterFiltred = restChap
+    val toReturn = course.chapters.map(ch =>
+    {
+      NR += 1
+      val (lessonChapter, restChap) = chapterFiltered.partition(l => l.chapter == ch)
+      chapterFiltered = restChap
       <span class="list-group-item chapter">
-        {ch}
+        <b>{NR.toString}.</b> {ch}
       </span> ++
         lessonChapter.map(less => {
-          if (less._id.toString() == currentLesson._id.toString())
+          if (less._id.toString == currentLesson._id.toString)
             <a href={"#"} class={"list-group-item active"}>
               <span class="badge">
                 {less.nr.toString}
@@ -237,10 +239,10 @@ class BaseShowCourseSn  {
             </a>
         })
     })
-    val rest = if (chapterFiltred.isEmpty) Nil
+    val rest = if (chapterFiltered.isEmpty) Nil
     else {
-      <span class="list-group-item chapter">Nieprzydzielone do działów</span> ++ chapterFiltred.map(less => {
-        if (less._id.toString() == currentLesson._id.toString())
+      <span class="list-group-item chapter">Nieprzydzielone do działów</span> ++ chapterFiltered.map(less => {
+        if (less._id.toString == currentLesson._id.toString)
           <a href={"#"} class={"list-group-item active"}>
             <span class="badge">
               {less.nr.toString}
@@ -263,7 +265,7 @@ class BaseShowCourseSn  {
     toReturn.flatten ++ rest
   }
 
-  protected def printInfo {
+  protected def printInfo:Unit = {
     println("idCourse = " + course._id.toString + " course title = " + course.title)
   }
 

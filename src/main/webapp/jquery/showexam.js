@@ -38,7 +38,7 @@ var ShowExam =  dejavu.Class.declare({
          for(var j = 0; j < elems.length; j++) {
            if(elems[j].type == "radio" || elems[j].type == "checkbox") {
                 if(elems[j].checked) arrayTmp.push(elems[j].value);
-           } else arrayTmp.push(elems[j].value);
+           } else arrayTmp.push(elems[j].value.trim());
          }
          var objJson = {};
          objJson.q = id;

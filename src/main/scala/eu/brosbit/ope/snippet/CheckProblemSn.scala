@@ -12,17 +12,17 @@ import scala.xml.Unparsed
 
 class CheckProblemSn {
   val baseDir = "/view"
-  var id = S.param("id").getOrElse("0")
-  var user = User.currentUser.getOrElse(S.redirectTo("/login"))
+  var id: String = S.param("id").getOrElse("0")
+  var user: User = User.currentUser.getOrElse(S.redirectTo("/login"))
   println("im a user " + user.id.get)
-  val problem = if(id == "0") TestProblem.create else TestProblem.find(id).getOrElse(TestProblem.create)
-  val aTrays = TestProblemTry.findAll(("problem" -> problem._id.toString)~("author" -> user.id.get) ).sortWith((t1, t2) => t1.aDate > t2.aDate)
+  val problem: TestProblem = if(id == "0") TestProblem.create else TestProblem.find(id).getOrElse(TestProblem.create)
+  val aTrays: Seq[TestProblemTry] = TestProblemTry.findAll(("problem" -> problem._id.toString)~("author" -> user.id.get) ).sortWith((t1, t2) => t1.aDate > t2.aDate)
 
   def show:CssSel = {
     val titleP = problem.title
     //var infoP = problem.info
     val descriptionP = problem.description
-    def saveProblem() {
+    def saveProblem(): Unit = {
       problem.description = descriptionP
       problem.title = titleP
     }
@@ -54,7 +54,7 @@ class CheckProblemSn {
     }
     "#idP" #> SHtml.text(idP, idP = _) &
       "#langCode" #> SHtml.text(lang, lang = _) &
-      "#sendCode" #> SHtml.textarea(codeTest, codeTest = _) &
+      "#sendCode" #> SHtml.textarea(codeTest, codeStr => codeTest = codeStr.trim()) &
       "#runCode" #> SHtml.submit("Run", runCode, "style" -> "display: none")
   }
   def showLastTests:CssSel = {
