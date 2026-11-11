@@ -1,6 +1,6 @@
 name := "ope_edu_pl"
 
-version := "0.10.2"
+version := "0.10.4"
 
 organization := "eu.brosbit"
 

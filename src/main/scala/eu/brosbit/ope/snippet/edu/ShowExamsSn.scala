@@ -18,8 +18,7 @@ class ShowExamsSn extends BaseResourceSn {
 
   def showInfo(): CssSel = {
     "span *" #> exam.description &
-      "small *" #> s" od ${Formater.formatTime(new Date(exam.start))} do ${Formater.formatTime(new Date(exam.end))}" &
-    "a [href]" #> s"/educontent/editexam/0?s=${subjectId}"
+      "small *" #> s" od ${Formater.formatTime(new Date(exam.start))} do ${Formater.formatTime(new Date(exam.end))}"
   }
 
   def showExamAnswers(): CssSel = {

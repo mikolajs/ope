@@ -83,7 +83,7 @@ class LoginSn {
       }
     }
   }
-
+//usunięto logowanie uzależnione od ucznia czy nauczyciela - teraz wszycy mogą użyć PESEL albo email
   def mkLogIn(): CssSel = {
     var login = ""
     var pass = ""
@@ -99,12 +99,12 @@ class LoginSn {
       if (pesel_?) {
         User.findAll(By(User.pesel, login.trim)) match {
           case user :: other => {
-            if (user.role == "u" || user.role == "r") {
+//            if (user.role == "u" || user.role == "r") {
               if (user.password.match_?(pass.trim)) {
                 User.logUserIn(user)
                 S.redirectTo(redirectUrl)
               } else message = " Błędne hasło "
-            } else message = " Będąc nauczycielem wpisz email jako login"
+//            } else message = " Będąc nauczycielem wpisz email jako login"
           }
           case _ => message = " Nie znaleziono PESELu. "
         }
@@ -112,13 +112,13 @@ class LoginSn {
       else {
         User.findAll(By(User.email, login.trim)) match {
           case user :: other => {
-            if (user.role == "n" || user.role == "a" || user.role == "d") {
+//            if (user.role == "n" || user.role == "a" || user.role == "d") {
               if (user.password.match_?(pass.trim)) {
                 User.logUserIn(user)
                 S.redirectTo(redirectUrl)
               }
               else message = " Błędne hasło "
-            } else message = " Będąc uczeniem wpisz PESEL jako login"
+//            } else message = " Będąc uczeniem wpisz PESEL jako login"
           }
           case _ => message = " Nie znaleziono adresu email. "
         }

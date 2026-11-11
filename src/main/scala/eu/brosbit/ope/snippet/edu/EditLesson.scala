@@ -58,7 +58,7 @@ class EditLesson extends BaseLesson {
 
     val userId = user.id.get
 
-    def save() {
+    def save(): Unit = {
       if (courseOption.isDefined && (lesson.authorId == 0L || lesson.authorId == userId)) {
         lesson.title = title
         lesson.authorId = userId
@@ -87,7 +87,7 @@ class EditLesson extends BaseLesson {
       S.redirectTo("/educontent/course/" + lesson.courseId.toString + "?l=" + lesson._id.toString)
     }
 
-    def delete() {
+    def delete(): Unit = {
       if (isLessonOwner(lesson)) lesson.delete
       deleteChapterIfLast(chapterOld)
       println("Usunięcie lekcji: " + lesson.title + " user: " + lesson.authorId)
@@ -121,26 +121,26 @@ class EditLesson extends BaseLesson {
       val lookingQuest = ("authorId" -> user.id.get) ~ ("department" -> department)
       itemCh match {
         case "q" => {
-          val str = QuizQuestion.findAll(lookingQuest)
+          val str = QuizQuestion.findAll(lookingQuest).filter(qq => !lesson.contents.exists(le => le.id.drop(1) == qq._id.toString))
             .map(q => "[ '" + q._id.toString + "',  '" + Formater.mkLongExerciseNumber(q.nr) + "', '" +
               "[" + q.info + "] " + q.question + "']")
             .mkString(",")
           "[" + str + "]"
         }
         case "p" => {
-          val str = Presentation.findAll(lookingQuest)
+          val str = Presentation.findAll(lookingQuest).filter(qq => !lesson.contents.exists(le => le.id.drop(1) == qq._id.toString))
             .map(h => "[ '" + h._id.toString + "',  '" + h.title + "', '" + h.descript + "']")
             .mkString(",")
           "[" + str + "]"
         }
         case "v" => {
-          val str = Video.findAll(lookingQuest)
+          val str = Video.findAll(lookingQuest).filter(qq => !lesson.contents.exists(le => le.id.drop(1) == qq._id.toString))
             .map(h => "[ '" + h._id.toString + "',  '" + h.title + "', '" + h.descript + "']")
             .mkString(",")
           "[" + str + "]"
         }
         case "d" => {
-          val str = Document.findAll(lookingQuest)
+          val str = Document.findAll(lookingQuest).filter(qq => !lesson.contents.exists(le => le.id.drop(1) == qq._id.toString))
             .map(d => "['" + d._id.toString + "', '" + d.title + "', '" + d.descript + "']")
             .mkString(",")
           "[" + str + "]"

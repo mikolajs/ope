@@ -15,9 +15,13 @@ var CheckExam =  dejavu.Class.declare({
         });
 	},
 
+    infoEdited : function (){
+        $('#fixedButton').removeClass('btn-success').addClass('btn-danger');
+    },
+
 	pressedSave : function() {
         if(this.saved) return;
-        var arrayPoints = [];
+        const arrayPoints = [];
         $('section').each(function(){
             var $section = $(this);
             var $input = $section.children('div.panel').children('div.panel-heading').children('input');
@@ -40,8 +44,8 @@ var CheckExam =  dejavu.Class.declare({
 	},
 
 	_reCountData : function() {
-	    var points = 0.0;
-	     $('section').each(function(){
+        let points = 0.0;
+        $('section').each(function(){
                var $input = $(this).children('div.panel').children('div.panel-heading').children('input');
                var max = parseFloat($input.attr('max'));
                var val = parseFloat($input.val());
@@ -52,14 +56,14 @@ var CheckExam =  dejavu.Class.declare({
          });
 
          $('#sum').val(points);
-         var proc = Math.round( points * 100.0 / parseInt($("#max").val()));
-         this._setCanvas(proc);
+        const proc = Math.round(points * 100.0 / parseInt($("#max").val()));
+        this._setCanvas(proc);
 	},
 
 	_setCanvas : function(proc) {
-	     var example = document.getElementById('procent');
-         var context = example.getContext('2d');
-         context.fillStyle = "rgb(255,0,0)";
+        const example = document.getElementById('procent');
+        const context = example.getContext('2d');
+        context.fillStyle = "rgb(255,0,0)";
          context.fillRect(0, 0, 300, 30);
          context.fillStyle = "rgb(0,255,0)";
          context.fillRect(0,0, (300.0*proc)/100.0, 30);
